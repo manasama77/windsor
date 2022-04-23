@@ -6,6 +6,7 @@ use App\Models\Subject;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\ClassRoom;
+use App\Models\HomeroomTeacher;
 
 class AdminSetupClassRoomController extends Controller
 {
@@ -79,7 +80,14 @@ class AdminSetupClassRoomController extends Controller
 
     public function destroy(Request $request)
     {
-        $exec = ClassRoom::find($request->id)->delete($request->id);
+        $exec = ClassRoom::find($request->id);
+        foreach ($exec->homeroom_teacher as $homeroom_teacher) {
+            $homeroom_teacher->classRoomStudent()->delete();
+        }
+
+        $exec->homeroom_teacher()->delete();
+        $exec->delete();
+
         return response()->json([
             'code' => 200,
             'msg'  => 'Hapus Data berhasil'
