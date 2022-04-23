@@ -17,4 +17,9 @@ class SchoolYear extends Model
         'to_period_to',
         'is_active',
     ];
+
+    public function homeroom_teachers()
+    {
+        return $this->hasMany(HomeroomTeacher::class);
+    }
 }

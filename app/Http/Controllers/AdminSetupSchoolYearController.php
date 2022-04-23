@@ -96,7 +96,12 @@ class AdminSetupSchoolYearController extends Controller
 
     public function destroy(Request $request)
     {
-        $exec = SchoolYear::find($request->id)->delete($request->id);
+        $exec = SchoolYear::find($request->id);
+        foreach ($exec->homeroom_teachers as $homeroom_teacher) {
+            $homeroom_teacher->classRoomStudent()->delete();
+        }
+        $exec->homeroom_teachers()->delete();
+        $exec->delete();
         return response()->json([
             'code' => 200,
             'msg'  => 'Hapus Data berhasil'
