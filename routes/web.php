@@ -53,6 +53,9 @@ Route::prefix('teacher')->group(function () {
 
     /* ----------- Start Teacher -> Pertemuan ----------- */
     Route::get('/pertemuan', [TeacherMeetingController::class, 'index'])->name('teacher.pertemuan')->middleware('teacher');
+    Route::get('/pertemuan/add', [TeacherMeetingController::class, 'add'])->name('teacher.pertemuan.add')->middleware('teacher');
+    Route::get('/pertemuan/store', [TeacherMeetingController::class, 'store'])->name('teacher.pertemuan.store')->middleware('teacher');
+    Route::get('/pertemuan/show/subject/{teacher_id}', [TeacherMeetingController::class, 'show_subject'])->name('teacher.pertemuan.show.subject')->middleware('teacher');
     /* ----------- End Teacher -> Pertemuan ----------- */
 });
 /* ----------- End Teacher Route ----------- */

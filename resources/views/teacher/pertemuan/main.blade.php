@@ -1,4 +1,4 @@
-@extends('partials.admin.main')
+@extends('partials.teacher.main')
 
 @section('contents')
 <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -45,8 +45,9 @@
                                     <tr>
                                         <th style="width: 10px">#</th>
                                         <th>Tahun Ajar</th>
+                                        <th>Pengajar</th>
                                         <th>Kelas</th>
-                                        <th>Guru</th>
+                                        <th>Judul</th>
                                         <th class="text-center" style="width: 40px">
                                             <i class="fas fa-cogs"></i>
                                         </th>
@@ -73,13 +74,23 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="teacher_id">Pengajar</label>
+                                    <select class="form-control" id="teacher_id" name="teacher_id" required>
+                                        <option value=""></option>
+                                        @foreach ($setupTeachers as $setupTeacher)
+                                        <option value="{{ $setupTeacher->teacher->id }}">{{ $setupTeacher->teacher->name
+                                            }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('teacher_id')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="class_room_id">Kelas</label>
                                     <select class="form-control" id="class_room_id" name="class_room_id" required>
                                         <option value=""></option>
-                                        @foreach ($classrooms as $classroom)
-                                        <option value="{{ $classroom->id }}">{{ $classroom->name }} - {{
-                                            Str::upper($classroom->classroom_type) }} - {{
-                                            Str::upper($classroom->vocational_type)
-                                            }}</option>
+                                        @foreach ($classRooms as $classRoom)
+                                        <option value="{{ $classRoom->id }}">{{ $classRoom->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('class_room_id')
@@ -87,16 +98,46 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="teacher_id">Guru</label>
-                                    <select class="form-control" id="teacher_id" name="teacher_id" required>
+                                    <label for="subject_id">MAPEL</label>
+                                    <select class="form-control" id="subject_id" name="subject_id" disabled>
                                         <option value=""></option>
-                                        @foreach ($teachers as $teacher)
-                                        <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
-                                        @endforeach
                                     </select>
-                                    @error('teacher_id')
+                                    @error('subject_id')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                     @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="title">Judul</label>
+                                    <input type="text" class="form-control" id="title" name="title" required />
+                                    @error('title')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Deskripsi</label>
+                                    <textarea class="form-control" id="description" name="description"
+                                        placeholder="Deskripsi" required></textarea>
+                                    @error('description')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="is_task">Berikan Tugas ?</label>
+                                    <select class="form-control" id="is_task" name="is_task" required>
+                                        <option value="0">Tidak</option>
+                                        <option value="1">Ya</option>
+                                    </select>
+                                    @error('is_task')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="lampiran">Lampiran</label>
+                                    <input type="file" class="form-control" />
+
+                                </div>
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary btn-block">Tambah Lampiran</button>
                                 </div>
                             </div>
                             <div class="card-footer">
@@ -115,7 +156,7 @@
 </div>
 
 <!-- Modal -->
-<form id="form_edit">
+{{-- <form id="form_edit">
     <div class="modal fade" id="modal_edit" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -165,7 +206,7 @@
             </div>
         </div>
     </div>
-</form>
+</form> --}}
 @endsection
 
 @section('contents_vitamin')

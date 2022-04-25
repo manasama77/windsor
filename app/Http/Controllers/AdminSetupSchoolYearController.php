@@ -101,6 +101,7 @@ class AdminSetupSchoolYearController extends Controller
             $homeroom_teacher->classRoomStudent()->delete();
         }
         $exec->homeroom_teachers()->delete();
+        $exec->setup_teachers()->delete();
         $exec->delete();
         return response()->json([
             'code' => 200,

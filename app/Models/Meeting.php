@@ -33,4 +33,9 @@ class Meeting extends Model
     {
         return $this->belongsTo(ClassRoomStudent::class);
     }
+
+    public function attachment()
+    {
+        return $this->hasMany(Attachment::class);
+    }
 }

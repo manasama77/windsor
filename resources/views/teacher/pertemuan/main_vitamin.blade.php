@@ -33,21 +33,28 @@
                     data: null,
                     render: function(data, type, full, meta)
                     {
-                        return data.school_year.name
+                        return data.id
                     }
                 },
                 {
                     data: null,
                     render: function(data, type, full, meta)
                     {
-                        return data.class_room.name
+                        return data.id
                     }
                 },
                 {
                     data: null,
                     render: function(data, type, full, meta)
                     {
-                        return data.teacher.name
+                        return data.id
+                    }
+                },
+                {
+                    data: null,
+                    render: function(data, type, full, meta)
+                    {
+                        return data.id
                     }
                 },
                 {
@@ -81,7 +88,39 @@
                 });
             }
         });
+
+        $('#teacher_id').on('change', e => {
+            const teacher_id = $('#teacher_id :selected').val()
+            getMapelByTeacher(teacher_id)
+        })
     })
+
+    function getMapelByTeacher(teacher_id)
+    {
+        $.ajax({
+            url: `{{ url('teacher/pertemuan/show/subject') }}/${teacher_id}`,
+            method: 'get',
+            dataType: 'json',
+            beforeSend: e => {
+                //
+            }
+        }).fail(e => {
+            console.log(e)
+        }).done(e => {
+            if(e.length == 0){
+
+            }else{
+                $('#subject_id').html(``)
+                let htmlnya = `<option value=""></option>`
+                e.forEach(el => {
+                    const id = el.id
+                    const subject = el.subject?.name
+                    htmlnya += `<option value="${id}">${subject}</option>`
+                });
+                $('#subject_id').html(htmlnya).attr('disabled', false).attr('required', true)
+            }
+        })
+    }
 
     function editData(id) {
         idEdit = id

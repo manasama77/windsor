@@ -22,4 +22,9 @@ class SchoolYear extends Model
     {
         return $this->hasMany(HomeroomTeacher::class);
     }
+
+    public function setup_teachers()
+    {
+        return $this->hasMany(SetupTeacher::class);
+    }
 }
