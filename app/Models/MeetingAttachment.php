@@ -5,15 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Attachment extends Model
+class MeetingAttachment extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'meeting_id',
-        'type_attachment',
-        'title',
-        'file_path',
+        'path',
+        'mime',
     ];
 
     protected $hidden = [

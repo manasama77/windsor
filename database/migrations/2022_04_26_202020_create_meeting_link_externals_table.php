@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('attachments', function (Blueprint $table) {
+        Schema::create('meeting_link_externals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('meeting_id');
-            $table->enum('type_attachment', ['file', 'url']);
-            $table->string('title');
-            $table->string('file_path');
+            $table->foreignId('meeting_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->string('url');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attachments');
+        Schema::dropIfExists('meeting_link_externals');
     }
 };

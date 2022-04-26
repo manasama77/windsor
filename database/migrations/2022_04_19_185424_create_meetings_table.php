@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('teacher_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('subject_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('class_room_student_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('homeroom_teacher_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('title');
-            $table->string('description');
+            $table->longText('description');
             $table->boolean('is_task')->default(0);
             $table->timestamps();
             $table->softDeletes();

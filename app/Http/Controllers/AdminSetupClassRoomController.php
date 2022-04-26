@@ -40,7 +40,7 @@ class AdminSetupClassRoomController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'            => 'required|min:4',
+            'name'            => 'required|min:2',
             'classroom_type'  => 'required',
             'vocational_type' => 'required',
             'is_active'       => 'required|boolean',

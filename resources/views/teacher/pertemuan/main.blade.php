@@ -34,7 +34,7 @@
 
             <!-- Small boxes (Stat box) -->
             <div class="row">
-                <div class="col-sm-12 col-md-8">
+                <div class="col-12">
                     <div class="card card-primary shadow-sm">
                         <div class="card-header">
                             <h3 class="card-title">Data Pertemuan</h3>
@@ -47,6 +47,7 @@
                                         <th>Tahun Ajar</th>
                                         <th>Pengajar</th>
                                         <th>Kelas</th>
+                                        <th>MAPEL</th>
                                         <th>Judul</th>
                                         <th class="text-center" style="width: 40px">
                                             <i class="fas fa-cogs"></i>
@@ -59,154 +60,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-4">
-                    <form action="{{ route('teacher.pertemuan.store') }}" method="post">
-                        @csrf
-                        <div class="card card-secondary shadow-sm">
-                            <div class="card-header">
-                                <h3 class="card-title">Tambah Pertemuan</h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for="teacher_id">Pengajar</label>
-                                    <select class="form-control" id="teacher_id" name="teacher_id" required>
-                                        <option value=""></option>
-                                        @foreach ($setupTeachers as $setupTeacher)
-                                        <option value="{{ $setupTeacher->teacher->id }}">{{ $setupTeacher->teacher->name
-                                            }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('teacher_id')
-                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="class_room_id">Kelas</label>
-                                    <select class="form-control" id="class_room_id" name="class_room_id" required>
-                                        <option value=""></option>
-                                        @foreach ($classRooms as $classRoom)
-                                        <option value="{{ $classRoom->id }}">{{ $classRoom->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('class_room_id')
-                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="subject_id">MAPEL</label>
-                                    <select class="form-control" id="subject_id" name="subject_id" disabled>
-                                        <option value=""></option>
-                                    </select>
-                                    @error('subject_id')
-                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="title">Judul</label>
-                                    <input type="text" class="form-control" id="title" name="title" required />
-                                    @error('title')
-                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="description">Deskripsi</label>
-                                    <textarea class="form-control" id="description" name="description"
-                                        placeholder="Deskripsi" required></textarea>
-                                    @error('description')
-                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="is_task">Berikan Tugas ?</label>
-                                    <select class="form-control" id="is_task" name="is_task" required>
-                                        <option value="0">Tidak</option>
-                                        <option value="1">Ya</option>
-                                    </select>
-                                    @error('is_task')
-                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="lampiran">Lampiran</label>
-                                    <input type="file" class="form-control" />
-
-                                </div>
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-primary btn-block">Tambah Lampiran</button>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-success btn-block">
-                                    Simpan
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
             </div>
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
 </div>
-
-<!-- Modal -->
-{{-- <form id="form_edit">
-    <div class="modal fade" id="modal_edit" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modal_title">Edit</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    @csrf
-                    <div class="form-group">
-                        <label for="school_year_id_edit">Tahun Ajar</label>
-                        <select class="form-control" id="school_year_id_edit" name="school_year_id" required>
-                            <option value=""></option>
-                            @foreach ($schoolYears as $schoolYear)
-                            <option value="{{ $schoolYear->id }}">{{ $schoolYear->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="class_room_id_edit">Kelas</label>
-                        <select class="form-control" id="class_room_id_edit" name="class_room_id" required>
-                            <option value=""></option>
-                            @foreach ($classrooms as $classroom)
-                            <option value="{{ $classroom->id }}">{{ $classroom->name }} - {{
-                                Str::upper($classroom->class_room_type) }} - {{
-                                Str::upper($classroom->vocational_type)
-                                }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="teacher_id_edit">Guru</label>
-                        <select class="form-control" id="teacher_id_edit" name="teacher_id" required>
-                            <option value=""></option>
-                            @foreach ($teachers as $teacher)
-                            <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="btn_edit">Simpan</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</form> --}}
 @endsection
 
 @section('contents_vitamin')

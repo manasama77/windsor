@@ -3,14 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Teacher;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class AdminDashboardController extends Controller
 {
+
+    public function __construct()
+    {
+        // dd(Auth::guard('admin')->user()->name);
+        // if (!Auth::guard('admin')->check()) {
+        //     echo "NO";
+        //     exit;
+        //     redirect()->route('admin.logout');
+        // } else {
+        //     echo "YES";
+        //     exit;
+        // }
+    }
     public function index()
     {
         $arr_admin = Admin::all();

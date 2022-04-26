@@ -12,7 +12,8 @@ class Meeting extends Model
 
     protected $fillable = [
         'teacher_id',
-        'class_room_student_id',
+        'subject_id',
+        'homeroom_teacher_id',
         'title',
         'description',
         'is_task',
@@ -29,13 +30,23 @@ class Meeting extends Model
         return $this->belongsTo(Teacher::class);
     }
 
-    public function class_room_student()
+    public function subject()
     {
-        return $this->belongsTo(ClassRoomStudent::class);
+        return $this->belongsTo(Subject::class);
+    }
+
+    public function homeroomTeacher()
+    {
+        return $this->belongsTo(HomeroomTeacher::class);
     }
 
     public function attachment()
     {
-        return $this->hasMany(Attachment::class);
+        return $this->hasMany(MeetingAttachment::class);
+    }
+
+    public function linkExternal()
+    {
+        return $this->hasMany(MeetingLinkExternal::class);
     }
 }

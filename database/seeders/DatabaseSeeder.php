@@ -2,11 +2,15 @@
 
 namespace Database\Seeders;
 
+use App\Models\Admin;
 use App\Models\Student;
+use App\Models\Subject;
 use App\Models\Teacher;
+use App\Models\SchoolYear;
 use Illuminate\Database\Seeder;
 use Database\Factories\StudentFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,7 +21,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // Teacher::factory(10)->create();
-        // Student::factory(10)->create();
+        $this->call([
+            AdminSeeder::class,
+            MapelSeeder::class,
+            SchoolYearSeeder::class,
+            StudentSeeder::class,
+            TeacherSeeder::class,
+            ClassRoomSeeder::class,
+            SetupTeacherSeeder::class,
+            HomeroomTeacherSeeder::class,
+        ]);
     }
 }

@@ -16,5 +16,12 @@ class TeacherSeeder extends Seeder
     public function run()
     {
         Teacher::factory(10)->create();
+        Teacher::create([
+            'name'     => 'Adam PM',
+            'email'    => 'adam.pm77@gmail.com',
+            'password' => bcrypt("adam"),
+            'phone'    => '082114578976',
+            'address'  => 'test alamat',
+        ]);
     }
 }

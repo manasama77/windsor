@@ -38,12 +38,27 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('teacher.pertemuan') }}" class="nav-link">
-                        <i class="nav-icon fas fa-calendar-week"></i>
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-user-graduate"></i>
                         <p>
-                            Management Pertemuan
+                            Manage Pertemuan
+                            <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('teacher.pertemuan') }}" class="nav-link">
+                                <i class="fas fa-list-alt nav-icon"></i>
+                                <p>Daftar Pertemuan</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('teacher.pertemuan.add') }}" class="nav-link">
+                                <i class="fas fa-plus nav-icon"></i>
+                                <p>Tambah Pertemuan</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </nav>

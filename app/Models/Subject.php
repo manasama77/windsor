@@ -14,6 +14,11 @@ class Subject extends Model
         'is_active',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     public function setup_teacher()
     {
         return $this->hasMany(SetupTeacher::class);

@@ -20,6 +20,7 @@ class AdminController extends Controller
     public function auth(Request $request)
     {
         if (Auth::guard('admin')->attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
+            $request->session()->regenerate();
             $this->init_session();
             return redirect()->route('admin.dashboard')->with('success', 'Login Success');
         }
