@@ -7,8 +7,13 @@
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                <div class="col-sm-12">
+                <div class="col-sm-12 col-md-6">
                     <h1 class="m-0">{{ $content_title }}</h1>
+                </div>
+                <div class="col-sm-12 col-md-6 text-right">
+                    <a href="{{ route('teacher.pertemuan.add') }}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Tambah Pertemuan
+                    </a>
                 </div>
             </div>
         </div>

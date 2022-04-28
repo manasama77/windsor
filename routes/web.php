@@ -33,7 +33,6 @@ Route::get('/', [StudentController::class, 'index']);
 
 /* ------------------------------------------------------------------------------------------------------------------------------ */
 
-
 /* ----------- Start Teacher Route ----------- */
 
 Route::prefix('teacher')->group(function () {
@@ -41,25 +40,30 @@ Route::prefix('teacher')->group(function () {
     Route::post('/login/auth', [TeacherController::class, 'auth'])->name('teacher.auth');
     Route::get('/logout', [TeacherController::class, 'logout'])->name('teacher.logout');
     Route::get('/register', [TeacherController::class, 'register'])->name('teacher.register');
-    Route::post('/store', [TeacherController::class, 'store'])->name('teacher.store');
-
-
+    Route::post('/store', [TeacherController::class, 'store'])->name('teacher.store')->middleware('teacher');
     /* ------------------------------------------------------------------------------------------------------------------------------ */
 
 
+    /* ------------------------------------------------------------------------------------------------------------------------------ */
     /* ----------- Start Teacher -> Dashboard ----------- */
     Route::get('/dashboard', [TeacherDashboardController::class, 'index'])->name('teacher.dashboard')->middleware('teacher');
     /* ----------- End Teacher -> Dashboard ----------- */
+    /* ------------------------------------------------------------------------------------------------------------------------------ */
 
+    /* ------------------------------------------------------------------------------------------------------------------------------ */
     /* ----------- Start Teacher -> Pertemuan ----------- */
     Route::get('/pertemuan', [TeacherMeetingController::class, 'index'])->name('teacher.pertemuan')->middleware('teacher');
-    Route::get('/pertemuan/test', [TeacherMeetingController::class, 'test'])->name('teacher.pertemuan.test')->middleware('teacher');
+    Route::get('/pertemuan/test/{id}', [TeacherMeetingController::class, 'test'])->name('teacher.pertemuan.test')->middleware('teacher');
     Route::get('/pertemuan/datatables', [TeacherMeetingController::class, 'datatables'])->name('teacher.pertemuan.datatables')->middleware('teacher');
     Route::get('/pertemuan/add', [TeacherMeetingController::class, 'add'])->name('teacher.pertemuan.add')->middleware('teacher');
     Route::post('/pertemuan/store', [TeacherMeetingController::class, 'store'])->name('teacher.pertemuan.store')->middleware('teacher');
     Route::get('/pertemuan/show/subject/{teacher_id}', [TeacherMeetingController::class, 'show_subject'])->name('teacher.pertemuan.show.subject')->middleware('teacher');
     Route::get('/pertemuan/truncate', [TeacherMeetingController::class, 'truncate'])->name('teacher.pertemuan.truncate')->middleware('teacher');
+    Route::get('/pertemuan/edit/{meeting_id}', [TeacherMeetingController::class, 'edit'])->name('teacher.pertemuan.edit')->middleware('teacher');
+    Route::post('/pertemuan/update/{meeting_id}', [TeacherMeetingController::class, 'update'])->name('teacher.pertemuan.update')->middleware('teacher');
+    Route::post('/pertemuan/destroy', [TeacherMeetingController::class, 'destroy'])->name('teacher.pertemuan.destroy');
     /* ----------- End Teacher -> Pertemuan ----------- */
+    /* ------------------------------------------------------------------------------------------------------------------------------ */
 });
 /* ----------- End Teacher Route ----------- */
 

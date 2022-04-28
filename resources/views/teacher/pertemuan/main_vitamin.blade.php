@@ -21,36 +21,31 @@
                 },
                 {
                     data: null,
-                    render: function(data, type, full, meta)
-                    {
+                    render: function(data, type, full, meta) {
                         return data.homeroom_teacher.school_year.name
                     }
                 },
                 {
                     data: null,
-                    render: function(data, type, full, meta)
-                    {
+                    render: function(data, type, full, meta) {
                         return data.teacher.name
                     }
                 },
                 {
                     data: null,
-                    render: function(data, type, full, meta)
-                    {
+                    render: function(data, type, full, meta) {
                         return data.homeroom_teacher.class_room.name
                     }
                 },
                 {
                     data: null,
-                    render: function(data, type, full, meta)
-                    {
+                    render: function(data, type, full, meta) {
                         return data.subject.name
                     }
                 },
                 {
                     data: null,
-                    render: function(data, type, full, meta)
-                    {
+                    render: function(data, type, full, meta) {
                         return data.title
                     }
                 },
@@ -66,24 +61,41 @@
         })
 
         $('body').on('click', '.delete', function() {
-            if (confirm("Delete Record?") == true) {
-                let id = $(this).data('id');
-                let token = $("meta[name='csrf-token']").attr("content");
-                // ajax
-                $.ajax({
-                    type: "POST",
-                    url: "{{ route('admin.guru.wali_kelas.destroy') }}",
-                    data: {
-                        id: id,
-                        _token: token,
-                    },
-                    dataType: 'json',
-                    success: function(res) {
-                        let oTable = $('.datatables').dataTable();
-                        oTable.fnDraw(false);
-                    }
-                });
-            }
+            Swal.fire({
+                icon: 'question',
+                title: 'Apakah kamu yakin?',
+                html: `Kamu akan menghapus data <b>${$(this).data('title')}</b>`,
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus Data!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let id = $(this).data('id');
+                    let token = $("meta[name='csrf-token']").attr("content");
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ route('teacher.pertemuan.destroy') }}",
+                        data: {
+                            id: id,
+                            _token: token,
+                        },
+                        dataType: 'json',
+                        success: function(res) {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Data Berhasil Dihapus',
+                                showConfirmButton: false,
+                                timer: 1500,
+                                toast: true,
+                            })
+                            let oTable = $('.datatables').dataTable();
+                            oTable.fnDraw(false);
+                        }
+                    });
+                }
+            })
         });
     })
 </script>

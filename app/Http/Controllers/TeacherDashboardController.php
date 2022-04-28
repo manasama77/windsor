@@ -15,12 +15,6 @@ class TeacherDashboardController extends Controller
 {
     public function index()
     {
-        // $arr_teacher = Teacher::with(['class_room'])->withCount('homeroom_teacher')->where('id', 1)->get();
-        // foreach ($arr_teacher->flatMap->class_room as $key) {
-        //     echo $key->name;
-        // }
-        // dd($arr_teacher);
-
         $arr_admin = Admin::all();
         $arr_teacher = Teacher::all();
         $arr_student = Student::all();
