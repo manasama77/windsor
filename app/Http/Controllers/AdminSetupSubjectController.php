@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Meeting;
+use App\Models\SetupTeacher;
 use App\Models\Subject;
 
 class AdminSetupSubjectController extends Controller
@@ -71,8 +73,8 @@ class AdminSetupSubjectController extends Controller
     public function destroy(Request $request)
     {
         $exec = Subject::find($request->id);
-        $exec->setup_teacher()->detach();
-        $exec->parents()->detach();
+        SetupTeacher::where('subject_id', '=', $request->id)->delete();
+        Meeting::where('subject_id', '=', $request->id)->delete();
         $exec->delete();
         return response()->json([
             'code' => 200,

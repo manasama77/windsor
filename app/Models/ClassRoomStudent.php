@@ -30,6 +30,11 @@ class ClassRoomStudent extends Model
         return $this->belongsTo(Student::class);
     }
 
+    public function siswa()
+    {
+        return $this->belongsTo(Student::class)->orderBy('name');
+    }
+
     public function school_year()
     {
         return $this->hasManyThrough(SchoolYear::class, HomeroomTeacher::class, 'student_id');

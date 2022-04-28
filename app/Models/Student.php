@@ -37,7 +37,7 @@ class Student extends Authenticatable
     //     'email_verified_at' => 'datetime',
     // ];
 
-    public function classroom_student()
+    public function classRoomStudent()
     {
         return $this->hasMany(ClassRoomStudent::class);
     }

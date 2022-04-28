@@ -14,6 +14,7 @@ use App\Http\Controllers\AdminSetupSchoolYearController;
 use App\Http\Controllers\AdminTeacherManagementController;
 use App\Http\Controllers\AdminTeacherSetupTeacherController;
 use App\Http\Controllers\AdminTeacherHomeroomTeacherController;
+use App\Http\Controllers\TeacherAttendanceController;
 use App\Http\Controllers\TeacherDashboardController;
 use App\Http\Controllers\TeacherMeetingController;
 
@@ -63,6 +64,12 @@ Route::prefix('teacher')->group(function () {
     Route::post('/pertemuan/update/{meeting_id}', [TeacherMeetingController::class, 'update'])->name('teacher.pertemuan.update')->middleware('teacher');
     Route::post('/pertemuan/destroy', [TeacherMeetingController::class, 'destroy'])->name('teacher.pertemuan.destroy');
     /* ----------- End Teacher -> Pertemuan ----------- */
+    /* ------------------------------------------------------------------------------------------------------------------------------ */
+
+    /* ------------------------------------------------------------------------------------------------------------------------------ */
+    /* ----------- Start Teacher -> Presensi ----------- */
+    Route::get('/presensi/{meeting_id}', [TeacherAttendanceController::class, 'index'])->name('teacher.presensi')->middleware('teacher');
+    /* ----------- End Teacher -> Presensi ----------- */
     /* ------------------------------------------------------------------------------------------------------------------------------ */
 });
 /* ----------- End Teacher Route ----------- */
