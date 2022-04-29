@@ -49,4 +49,9 @@ class Meeting extends Model
     {
         return $this->hasMany(MeetingLinkExternal::class);
     }
+
+    public function attendance()
+    {
+        return $this->hasMany(Attendance::class);
+    }
 }

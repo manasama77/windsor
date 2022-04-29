@@ -1,5 +1,4 @@
 <script>
-    let idEdit = null
     $(document).ready(function() {
         $.ajaxSetup({
             headers: {
@@ -7,95 +6,77 @@
             }
         });
 
-        $("body").tooltip({
-            selector: '[data-toggle=tooltip]'
-        });
-
-        $('.datatables').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('teacher.pertemuan.datatables') }}",
-            columns: [{
-                    data: 'id',
-                    name: 'id'
-                },
-                {
-                    data: null,
-                    render: function(data, type, full, meta) {
-                        return data.homeroom_teacher.school_year.name
-                    }
-                },
-                {
-                    data: null,
-                    render: function(data, type, full, meta) {
-                        return data.teacher.name
-                    }
-                },
-                {
-                    data: null,
-                    render: function(data, type, full, meta) {
-                        return data.homeroom_teacher.class_room.name
-                    }
-                },
-                {
-                    data: null,
-                    render: function(data, type, full, meta) {
-                        return data.subject.name
-                    }
-                },
-                {
-                    data: null,
-                    render: function(data, type, full, meta) {
-                        return data.title
-                    }
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false
-                },
-            ],
-            order: [
-                [0, 'desc']
-            ]
-        })
-
-        $('body').on('click', '.delete', function() {
-            Swal.fire({
-                icon: 'question',
-                title: 'Apakah kamu yakin?',
-                html: `Kamu akan menghapus data <b>${$(this).data('title')}</b>`,
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Hapus Data!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    let id = $(this).data('id');
-                    let token = $("meta[name='csrf-token']").attr("content");
-                    $.ajax({
-                        type: "POST",
-                        url: "{{ route('teacher.pertemuan.destroy') }}",
-                        data: {
-                            id: id,
-                            _token: token,
-                        },
-                        dataType: 'json',
-                        success: function(res) {
-                            Swal.fire({
-                                position: 'top-end',
-                                icon: 'success',
-                                title: 'Data Berhasil Dihapus',
-                                showConfirmButton: false,
-                                timer: 1500,
-                                toast: true,
-                            })
-                            let oTable = $('.datatables').dataTable();
-                            oTable.fnDraw(false);
-                        }
-                    });
-                }
-            })
-        });
+        cekPresensi()
     })
+
+    function simpanData() {
+        const dataStatusPresence = [];
+        const dataDescription = [];
+        for (let i = 0; i < $(`select[name*="status_presence"]`).length; i++) {
+            let selectedSp = $(`select[name="status_presence[${i}]"]`).val()
+            dataStatusPresence.push(selectedSp)
+
+            let selectedD = $(`input[name="description[${i}]"]`).val()
+            dataDescription.push(selectedD)
+        }
+
+        $.ajax({
+            url: "{{ route('teacher.presensi.upsert') }}",
+            method: "POST",
+            data: {
+                meeting_id: $('#meeting_id').val(),
+                homeroom_teacher_id: $('#homeroom_teacher_id').val(),
+                status_presence: dataStatusPresence,
+                description: dataDescription,
+            },
+            dataType: 'json',
+            beforeSend: function() {
+                $('#btn_simpan').block({
+                    message: `<i class="fas fa-spinner fa-spin"></i>`
+                })
+            }
+        }).fail(e => {
+            console.log("fail", e)
+            $('#error').html(e.responseText)
+            $('#btn_simpan').unblock()
+        }).done(e => {
+            if (e.code == 200) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Data Berhasil Disimpan',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    toast: true,
+                })
+            }
+            $('#btn_simpan').unblock()
+        });
+    }
+
+    function cekPresensi() {
+        $.ajax({
+            url: `{{ url('/teacher/presensi/cek_presensi') }}/${ $('#meeting_id').val() }`,
+            method: "GET",
+            dataType: 'json',
+            beforeSend: function() {
+                $('#vdata').block({
+                    message: `<i class="fas fa-spinner fa-spin"></i>`
+                })
+            }
+        }).fail(e => {
+            console.log("fail", e)
+            $('#error').html(e.responseText)
+            $('#vdata').unblock()
+        }).done(e => {
+            if (e.code == 200) {
+                e.data.forEach(el => {
+                    $(`#student_id_${el.student_id} select`).val(el.status_presence)
+                    $(`#student_id_${el.student_id} input`).val(el.description)
+                });
+            }
+
+            $('#vdata').unblock()
+        });
+    }
 </script>

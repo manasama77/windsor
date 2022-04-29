@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('meeting_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('student_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->enum('status_presence', ['hadir', 'sakit', 'ijin', 'tidak hadir']);
-            $table->string('description');
+            $table->enum('status_presence', ['hadir', 'sakit', 'ijin', 'tidak hadir'])->nullable();
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

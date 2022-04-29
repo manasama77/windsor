@@ -69,6 +69,8 @@ Route::prefix('teacher')->group(function () {
     /* ------------------------------------------------------------------------------------------------------------------------------ */
     /* ----------- Start Teacher -> Presensi ----------- */
     Route::get('/presensi/{meeting_id}', [TeacherAttendanceController::class, 'index'])->name('teacher.presensi')->middleware('teacher');
+    Route::get('/presensi/cek_presensi/{meeting_id}', [TeacherAttendanceController::class, 'cek_presensi'])->name('teacher.presensi.cek_presensi')->middleware('teacher');
+    Route::post('/presensi/upsert', [TeacherAttendanceController::class, 'upsert'])->name('teacher.presensi.upsert')->middleware('teacher');
     /* ----------- End Teacher -> Presensi ----------- */
     /* ------------------------------------------------------------------------------------------------------------------------------ */
 });

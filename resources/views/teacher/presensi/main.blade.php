@@ -76,7 +76,7 @@
                             <h3 class="card-title">Data Presensi</h3>
                         </div>
                         <div class="card-body table-responsive">
-                            <table class="table table-hover">
+                            <table id="vdata" class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th style="width: 10px">#</th>
@@ -87,11 +87,12 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($students as $student)
-                                    <tr>
+                                    <tr id="student_id_{{ $student->student_id }}">
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $student->name }}</td>
                                         <td>
-                                            <select class="form-control" name="status_presence[]" required>
+                                            <select class="form-control"
+                                                name="status_presence[{{ $loop->iteration - 1 }}]" required>
                                                 <option value=""></option>
                                                 <option value="hadir">Hadir</option>
                                                 <option value="sakit">Sakit</option>
@@ -100,15 +101,24 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control" name="description[]" />
+                                            <input type="text" class="form-control"
+                                                name="description[{{ $loop->iteration - 1 }}]" />
                                         </td>
                                     </tr>
-
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <input type="hidden" id="meeting_id" value="{{ $meeting_id }}" />
+                    <input type="hidden" id="homeroom_teacher_id" value="{{ $homeroom_teacher_id }}" />
+                    <button type="button" id="btn_simpan" class="btn btn-primary btn-block" onclick="simpanData()"><i
+                            class="fas fa-save"></i> Simpan</button>
+                    <div id="error"></div>
                 </div>
             </div>
             <!-- /.row -->
