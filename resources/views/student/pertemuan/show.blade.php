@@ -96,7 +96,7 @@
                             <h3 class="card-title">{{ $meetings->title }}</h3>
                         </div>
                         <div class="card-body">
-                            {{ $meetings->description }}
+                            {!! nl2br($meetings->description) !!}
                         </div>
                     </div>
                 </div>
@@ -144,7 +144,14 @@
                 </div>
                 @endif
             </div>
-            @if($meetings->is_task == true)
+            @if($meetings->is_task)
+            <div class="alert alert-danger text-center" role="alert">
+                <i class="fas fa-exclamation-circle fa-fw"></i> Periode Pengumpulan tugas <b>{{
+                    $from_period->isoFormat('LLLL')
+                    }} s/d {{ $to_period->isoFormat('LLLL')
+                    }}</b>
+            </div>
+            @if($can_upload)
             <div class="row">
                 <div class="col-sm-12 col-md-4 offset-md-4">
                     <div class="card card-dark shadow-sm">
@@ -186,6 +193,7 @@
                     </div>
                 </div>
             </div>
+            @endif
             @endif
             <!-- /.row -->
         </div><!-- /.container-fluid -->

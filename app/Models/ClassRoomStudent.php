@@ -10,6 +10,7 @@ class ClassRoomStudent extends Model
     // use SoftDeletes;
 
     protected $fillable = [
+        'id',
         'homeroom_teacher_id',
         'student_id',
     ];

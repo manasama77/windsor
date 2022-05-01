@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('title');
             $table->longText('description');
             $table->boolean('is_task')->default(0);
-            $table->date('from_period');
-            $table->date('to_period');
+            $table->dateTime('from_period');
+            $table->dateTime('to_period');
             $table->timestamps();
             $table->softDeletes();
         });

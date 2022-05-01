@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Meeting;
 use App\Models\StudentWork;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\ClassRoomStudent;
 use App\Models\MeetingAttachment;
 use Illuminate\Routing\Controller;
 use App\Models\MeetingLinkExternal;
@@ -57,6 +58,13 @@ class StudentMeetingController extends Controller
         $meeting_link_externals = MeetingLinkExternal::where('meeting_id', '=', $meeting_id)->get();
         $student_works          = StudentWork::where('meeting_id', '=', $meeting_id)->where('student_id', '=', $this->student_id)->first();
 
+        $current_period = Carbon::now();
+        $from_period    = Carbon::createFromFormat('Y-m-d H:i:s', $meetings->from_period);
+        $to_period      = Carbon::createFromFormat('Y-m-d H:i:s', $meetings->to_period);
+
+        $can_upload = $current_period->gte($from_period);
+        $can_upload = $current_period->lte($to_period);
+
         $data = [
             'page_title'             => "Detail Pertemuan",
             'content_title'          => "Detail Pertemuan",
@@ -64,6 +72,9 @@ class StudentMeetingController extends Controller
             'meeting_attachments'    => $meeting_attachments,
             'meeting_link_externals' => $meeting_link_externals,
             'student_works'          => $student_works,
+            'can_upload'             => $can_upload,
+            'from_period'            => $from_period,
+            'to_period'              => $to_period,
         ];
         return view('student.pertemuan.show', $data);
     }

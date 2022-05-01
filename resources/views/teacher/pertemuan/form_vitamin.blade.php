@@ -1,6 +1,19 @@
 <script>
     let idEdit = null
     $(document).ready(function() {
+        $('#periode_aktif').daterangepicker({
+            timePicker: true,
+            startDate: moment().startOf('hour'),
+            endDate: moment().startOf('hour').add(168, 'hour'),
+            autoUpdateInput: false,
+        })
+
+        $('#periode_aktif').on('apply.daterangepicker', function(ev, picker) {
+            $('#from_period').val(picker.startDate.format('YYYY-MM-DD HH:mm:ss'))
+            $('#to_period').val(picker.endDate.format('YYYY-MM-DD HH:mm:ss'))
+            $(this).val(picker.startDate.format('DD/MM/YYYY hh:mm A') + ' - ' + picker.endDate.format('DD/MM/YYYY hh:mm A'));
+        });
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -20,6 +33,14 @@
             getMapelByTeacher(teacher_id)
         })
 
+        $('#is_task').on('change', e => {
+            if($('#is_task :selected').val() == "1"){
+                $('#periode_aktif').attr('disabled', false).attr('required', true)
+            }else{
+                $('#periode_aktif').attr('disabled', true).attr('required', false)
+            }
+        })
+
         $('#form').on('submit', function(e){
             e.preventDefault()
             let formData = new FormData(this);
@@ -31,7 +52,14 @@
             formData.append('TotalFiles', TotalFiles);
             processStore(formData)
         })
+
+        initData()
     })
+
+    function initData()
+    {
+        $('#teacher_id').val(`{{ Auth::guard('teacher')->user()->id }}`).trigger('change')
+    }
 
     function getMapelByTeacher(teacher_id)
     {

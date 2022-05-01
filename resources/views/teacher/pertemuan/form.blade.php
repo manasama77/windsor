@@ -55,7 +55,8 @@
                                     <select class="form-control" id="teacher_id" name="teacher_id" required>
                                         <option value=""></option>
                                         @foreach ($setupTeachers as $setupTeacher)
-                                        <option value="{{ $setupTeacher->teacher->id }}">{{ $setupTeacher->teacher->name
+                                        <option value="{{ $setupTeacher->teacher->id }}">{{
+                                            $setupTeacher->teacher->name
                                             }}</option>
                                         @endforeach
                                     </select>
@@ -86,6 +87,23 @@
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                <div class="form-group">
+                                    <label for="is_task">Berikan Tugas ?</label>
+                                    <select class="form-control" id="is_task" name="is_task" required>
+                                        <option value="0">Tidak</option>
+                                        <option value="1">Ya</option>
+                                    </select>
+                                    @error('is_task')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="periode_aktif">Periode Aktif Tugas</label>
+                                    <input type="text" class="form-control" id="periode_aktif" name="periode_aktif"
+                                        disabled />
+                                    <input type="hidden" id="from_period" name="from_period" />
+                                    <input type="hidden" id="to_period" name="to_period" />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -110,18 +128,8 @@
                                 <div class="form-group">
                                     <label for="description">Deskripsi</label>
                                     <textarea class="form-control" id="description" name="description"
-                                        placeholder="Deskripsi" required></textarea>
+                                        placeholder="Deskripsi" rows="11" required></textarea>
                                     @error('description')
-                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="is_task">Berikan Tugas ?</label>
-                                    <select class="form-control" id="is_task" name="is_task" required>
-                                        <option value="0">Tidak</option>
-                                        <option value="1">Ya</option>
-                                    </select>
-                                    @error('is_task')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                     @enderror
                                 </div>

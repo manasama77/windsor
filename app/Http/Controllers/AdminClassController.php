@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SchoolYear;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\ClassRoom;
-use App\Models\ClassRoomStudent;
-use App\Models\HomeroomTeacher;
 use App\Models\Student;
+use App\Models\ClassRoom;
+use App\Models\SchoolYear;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\HomeroomTeacher;
+use App\Models\ClassRoomStudent;
+use App\Http\Controllers\Controller;
 
 class AdminClassController extends Controller
 {
@@ -80,19 +81,25 @@ class AdminClassController extends Controller
             $homeroom_teacher_name = $key->teacher->name;
         }
 
-        $students      = Student::orderBy('name', 'asc')->get();
-        $usedStudent   = ClassRoomStudent::with('student')->where('class_room_students.homeroom_teacher_id', '=', $homeroom_teacher_id)->leftJoin('homeroom_teachers', 'homeroom_teachers.id', '=', 'class_room_students.homeroom_teacher_id')->leftJoin('school_years', 'school_years.id', '=', 'homeroom_teachers.school_year_id')->where('school_years.id', '=', $school_year_id)->get();
+        $rulesStudent1 = ClassRoomStudent::select('class_room_students.student_id')
+            ->leftJoin('homeroom_teachers', 'homeroom_teachers.id', '=', 'class_room_students.homeroom_teacher_id')
+            ->where('homeroom_teachers.school_year_id', '=', $school_year_id)
+            ->where('homeroom_teachers.class_room_id', '!=', $class_room_id)
+            ->get();
 
-        $arr_used_student = [];
+        $availStudent = Student::whereNotIn('id', $rulesStudent1->toArray())
+            ->orderBy('name')
+            ->get();
+
+        $usedStudent = ClassRoomStudent::select('class_room_students.student_id')
+            ->leftJoin('homeroom_teachers', 'homeroom_teachers.id', '=', 'class_room_students.homeroom_teacher_id')
+            ->where('homeroom_teachers.school_year_id', '=', $school_year_id)
+            ->where('homeroom_teachers.class_room_id', '=', $class_room_id)
+            ->get();
+
+        $arrUsedStudent = [];
         foreach ($usedStudent as $a) {
-            array_push($arr_used_student, $a->student->id);
-        }
-
-        $otherUsedStudent   = ClassRoomStudent::with('student')->where('class_room_students.homeroom_teacher_id', '!=', $homeroom_teacher_id)->leftJoin('homeroom_teachers', 'homeroom_teachers.id', '=', 'class_room_students.homeroom_teacher_id')->leftJoin('school_years', 'school_years.id', '=', 'homeroom_teachers.school_year_id')->where('school_years.id', '=', $school_year_id)->get();
-
-        $arr_other_student = [];
-        foreach ($otherUsedStudent as $a) {
-            array_push($arr_other_student, $a->student->id);
+            array_push($arrUsedStudent, $a->student_id);
         }
 
         $data = [
@@ -103,9 +110,8 @@ class AdminClassController extends Controller
             'class_room_id'         => $class_room_id,
             'classroom_name'        => $classroom_name,
             'homeroom_teacher_name' => $homeroom_teacher_name,
-            'usedStudent'           => $arr_used_student,
-            'unusedStudent'         => $students,
-            'otherUsedStudent'      => $arr_other_student,
+            'availStudent'          => $availStudent,
+            'usedStudent'           => $arrUsedStudent,
         ];
         return view('admin.kelas.form', $data);
     }
@@ -119,6 +125,7 @@ class AdminClassController extends Controller
         if ($arr_siswa) {
             foreach ($arr_siswa as $key => $val) {
                 $exec                      = new ClassRoomStudent;
+                $exec->id                  = Str::uuid();
                 $exec->homeroom_teacher_id = $homeroom_teacher_id;
                 $exec->class_room_id       = $class_room_id;
                 $exec->student_id          = $val;

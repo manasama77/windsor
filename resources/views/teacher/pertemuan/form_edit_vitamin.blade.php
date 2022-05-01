@@ -9,6 +9,19 @@
             }
         });
 
+        $('#periode_aktif').daterangepicker({
+            timePicker: true,
+            startDate: moment($('#from_period').val()),
+            endDate: moment($('#to_period').val()),
+            autoUpdateInput: false,
+        })
+
+        $('#periode_aktif').on('apply.daterangepicker', function(ev, picker) {
+            $('#from_period').val(picker.startDate.format('YYYY-MM-DD HH:mm:ss'))
+            $('#to_period').val(picker.endDate.format('YYYY-MM-DD HH:mm:ss'))
+            $(this).val(picker.startDate.format('DD/MM/YYYY hh:mm A') + ' - ' + picker.endDate.format('DD/MM/YYYY hh:mm A'));
+        });
+
         $("body").tooltip({
             selector: '[data-toggle=tooltip]'
         });
@@ -40,7 +53,13 @@
             })
         })
 
-        initData()
+        $('#is_task').on('change', e => {
+            if($('#is_task :selected').val() == "1"){
+                $('#periode_aktif').attr('disabled', false).attr('required', true)
+            }else{
+                $('#periode_aktif').attr('disabled', true).attr('required', false)
+            }
+        })
 
         $('#form').on('submit', function(e){
             e.preventDefault()
@@ -53,46 +72,59 @@
             formData.append('TotalFiles', TotalFiles);
             processStore(formData)
         })
+
+        initData()
     })
 
     function initData()
     {
-        $('#teacher_id').val(`{{ $meetings->teacher_id }}`)
-        $('#homeroom_teacher_id').val(`{{ $meetings->homeroom_teacher_id }}`)
-        $('#is_task').val(`{{ $meetings->is_task }}`)
+        $.blockUI()
 
-        let a = getMapelByTeacher(`{{ $meetings->teacher_id }}`)
-        a.done(e => {
-            if(e.length == 0){
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Oops...',
-                    text: `${$('#teacher_id :selected').text()} Tidak memiliki MAPEL`,
-                })
-            }else{
-                $('#subject_id').html(``)
-                let htmlnya = `<option value=""></option>`
-                e.forEach(el => {
-                    const id = el.id
-                    const subject = el.subject?.name
-                    htmlnya += `<option value="${id}">${subject}</option>`
-                });
-                $('#subject_id').html(htmlnya).attr('disabled', false).attr('required', true).val(`{{ $meetings->subject_id }}`)
+        setTimeout(() => {
+            $('#teacher_id').val(`{{ $meetings->teacher_id }}`)
+            $('#homeroom_teacher_id').val(`{{ $meetings->homeroom_teacher_id }}`)
+            $('#is_task').val(`{{ $meetings->is_task }}`).trigger('change')
+            if($('#is_task').val() == "1"){
+                $('#periode_aktif').val(`${moment($('#from_period').val()).format('DD/MM/YYYY hh:mm A')} - ${moment($('#to_period').val()).format('DD/MM/YYYY hh:mm A')}`)
             }
-        })
 
-        let htmlnya = ``;
-        arrOldUrl.forEach(el => {
-            htmlnya += `
-                <div class="input-group mt-2">
-                    <input type="url" class="form-control" name="link[]" value="${el.url}" required />
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-danger" onclick="removeNewLinkForm(this)"><i class="fas fa-trash"></i></button>
+            let a = getMapelByTeacher(`{{ $meetings->teacher_id }}`)
+            a.done(e => {
+                if(e.length == 0){
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Oops...',
+                        text: `${$('#teacher_id :selected').text()} Tidak memiliki MAPEL`,
+                    })
+                }else{
+                    $('#subject_id').html(``)
+                    let htmlnya = `<option value=""></option>`
+                    e.forEach(el => {
+                        const id = el.id
+                        const subject = el.subject?.name
+                        htmlnya += `<option value="${id}">${subject}</option>`
+                    });
+                    $('#subject_id').html(htmlnya).attr('disabled', false).attr('required', true).val(`{{ $meetings->subject_id }}`)
+                }
+            })
+
+            let htmlnya = ``;
+            arrOldUrl.forEach(el => {
+                htmlnya += `
+                    <div class="input-group mt-2">
+                        <input type="url" class="form-control" name="link[]" value="${el.url}" required />
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-danger" onclick="removeNewLinkForm(this)"><i class="fas fa-trash"></i></button>
+                        </div>
                     </div>
-                </div>
-            `;
-        })
-        $('#group_link').append(htmlnya)
+                `;
+            })
+            $('#group_link').append(htmlnya)
+        }, 500);
+        
+        setTimeout(() => {
+            $.unblockUI()
+        }, 1000);
     }
 
     function deleteAttachment(id)

@@ -85,16 +85,12 @@
                                     <label for="student_id">Siswa</label>
                                     <select class="form-control" id="student_id" name="student_id" row="20" multiple
                                         style="height: 400px;">
-                                        @foreach ($unusedStudent as $students)
-                                        @if(in_array($students->id, $otherUsedStudent) === false)
-                                        <option value="{{
-                                            $students->id
-                                            }}" @if(in_array($students->id, $usedStudent))
+                                        @foreach ($availStudent as $students)
+                                        <option value="{{ $students->id }}" @if(in_array($students->id,
+                                            $usedStudent))
                                             selected
                                             @endif
-                                            >{{ $students->name }}
-                                        </option>
-                                        @endif
+                                            >{{ $students->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -102,7 +98,7 @@
                         </div>
                     </div>
 
-                    @env('development')
+                    @env('local')
                     <div class="col-12" id="error"></div>
                     @endenv
 

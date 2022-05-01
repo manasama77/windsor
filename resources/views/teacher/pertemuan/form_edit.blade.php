@@ -87,6 +87,25 @@
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                <div class="form-group">
+                                    <label for="is_task">Berikan Tugas ?</label>
+                                    <select class="form-control" id="is_task" name="is_task" required>
+                                        <option value="0">Tidak</option>
+                                        <option value="1">Ya</option>
+                                    </select>
+                                    @error('is_task')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="periode_aktif">Periode Aktif Tugas</label>
+                                    <input type="text" class="form-control" id="periode_aktif" name="periode_aktif"
+                                        disabled />
+                                    <input type="hidden" id="from_period" name="from_period"
+                                        value="{{ $meetings->from_period }}" />
+                                    <input type="hidden" id="to_period" name="to_period"
+                                        value="{{ $meetings->to_period }}" />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -112,18 +131,9 @@
                                 <div class="form-group">
                                     <label for="description">Deskripsi</label>
                                     <textarea class="form-control" id="description" name="description"
-                                        placeholder="Deskripsi" required>{{ $meetings->description }}</textarea>
+                                        placeholder="Deskripsi" rows="11"
+                                        required>{{ $meetings->description }}</textarea>
                                     @error('description')
-                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="is_task">Berikan Tugas ?</label>
-                                    <select class="form-control" id="is_task" name="is_task" required>
-                                        <option value="0">Tidak</option>
-                                        <option value="1">Ya</option>
-                                    </select>
-                                    @error('is_task')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                     @enderror
                                 </div>
