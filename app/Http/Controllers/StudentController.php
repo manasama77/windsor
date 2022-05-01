@@ -24,7 +24,7 @@ class StudentController extends Controller
     {
         if (Auth::guard('student')->attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
             $this->init_session();
-            return redirect()->route('student.dashboard')->with('success', 'Login Success');
+            return redirect()->route('student.pertemuan')->with('success', 'Login Success');
         }
 
         return back()->with('error', 'Invalid Email or Password');

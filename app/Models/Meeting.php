@@ -17,6 +17,8 @@ class Meeting extends Model
         'title',
         'description',
         'is_task',
+        'from_period',
+        'to_period',
     ];
 
     protected $hidden = [

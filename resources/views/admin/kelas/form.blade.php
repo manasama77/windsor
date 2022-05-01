@@ -70,10 +70,10 @@
                 </div>
                 <div class="row">
 
-                    <div class="col-sm-12 col-md-4 offset-md-1">
+                    <div class="col-12">
                         <div class="card card-info shadow-sm">
                             <div class="card-header">
-                                <h3 class="card-title">Tambah Siswa</h3>
+                                <h3 class="card-title">Pilih Siswa</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
@@ -83,44 +83,28 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="student_id">Siswa</label>
-                                    <select class="form-control" id="student_id" name="student_id">
-                                        <option value=""></option>
-                                        @foreach ($unusedStudent->sort() as $students)
-                                        <option value="{{ $students->id }}">{{ $students->name }}</option>
+                                    <select class="form-control" id="student_id" name="student_id" row="20" multiple
+                                        style="height: 400px;">
+                                        @foreach ($unusedStudent as $students)
+                                        @if(in_array($students->id, $otherUsedStudent) === false)
+                                        <option value="{{
+                                            $students->id
+                                            }}" @if(in_array($students->id, $usedStudent))
+                                            selected
+                                            @endif
+                                            >{{ $students->name }}
+                                        </option>
+                                        @endif
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                            <div class="card-footer">
-                                <button type="button" class="btn btn-success btn-block" onclick="tambahSiswa();">
-                                    Tambah Siswa <i class="fas fa-arrow-right"></i>
-                                </button>
-                            </div>
                         </div>
                     </div>
 
-                    <div class="col-sm-12 col-md-4 offset-md-1">
-                        <div class="card card-info shadow-sm">
-                            <div class="card-header">
-                                <h3 class="card-title">Data Siswa</h3>
-                            </div>
-                            <div class="card-body table-responsive">
-                                <table class="table table-hover w-100">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 10px">#</th>
-                                            <th>Siswa</th>
-                                            <th class="text-center" style="width: 40px">
-                                                <i class="fas fa-cogs"></i>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="vSiswa">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                    @env('development')
+                    <div class="col-12" id="error"></div>
+                    @endenv
 
                     <div class="col-sm-12 col-md-8 offset-md-2 mb-4">
                         <button type="submit" class="btn btn-primary btn-block" id="simpan"><i

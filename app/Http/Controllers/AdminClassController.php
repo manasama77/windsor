@@ -83,7 +83,17 @@ class AdminClassController extends Controller
         $students      = Student::orderBy('name', 'asc')->get();
         $usedStudent   = ClassRoomStudent::with('student')->where('class_room_students.homeroom_teacher_id', '=', $homeroom_teacher_id)->leftJoin('homeroom_teachers', 'homeroom_teachers.id', '=', 'class_room_students.homeroom_teacher_id')->leftJoin('school_years', 'school_years.id', '=', 'homeroom_teachers.school_year_id')->where('school_years.id', '=', $school_year_id)->get();
 
+        $arr_used_student = [];
+        foreach ($usedStudent as $a) {
+            array_push($arr_used_student, $a->student->id);
+        }
+
         $otherUsedStudent   = ClassRoomStudent::with('student')->where('class_room_students.homeroom_teacher_id', '!=', $homeroom_teacher_id)->leftJoin('homeroom_teachers', 'homeroom_teachers.id', '=', 'class_room_students.homeroom_teacher_id')->leftJoin('school_years', 'school_years.id', '=', 'homeroom_teachers.school_year_id')->where('school_years.id', '=', $school_year_id)->get();
+
+        $arr_other_student = [];
+        foreach ($otherUsedStudent as $a) {
+            array_push($arr_other_student, $a->student->id);
+        }
 
         $data = [
             'page_title'            => "Management Kelas - Edit Data Siswa Kelas",
@@ -93,9 +103,9 @@ class AdminClassController extends Controller
             'class_room_id'         => $class_room_id,
             'classroom_name'        => $classroom_name,
             'homeroom_teacher_name' => $homeroom_teacher_name,
-            'usedStudent'           => $usedStudent->toJson(),
+            'usedStudent'           => $arr_used_student,
             'unusedStudent'         => $students,
-            'otherUsedStudent'      => $otherUsedStudent,
+            'otherUsedStudent'      => $arr_other_student,
         ];
         return view('admin.kelas.form', $data);
     }
@@ -107,11 +117,11 @@ class AdminClassController extends Controller
         ClassRoomStudent::where('homeroom_teacher_id', $homeroom_teacher_id)->delete();
 
         if ($arr_siswa) {
-            foreach ($arr_siswa as $key) {
+            foreach ($arr_siswa as $key => $val) {
                 $exec                      = new ClassRoomStudent;
                 $exec->homeroom_teacher_id = $homeroom_teacher_id;
                 $exec->class_room_id       = $class_room_id;
-                $exec->student_id          = $key['id'];
+                $exec->student_id          = $val;
                 $exec->save();
             }
         }

@@ -8,24 +8,28 @@ use App\Models\Subject;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Meeting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class TeacherDashboardController extends Controller
 {
+
+    protected $teacher_id;
+
+    public function __construct()
+    {
+        $this->teacher_id = Auth::guard('teacher')->user()->id;
+    }
+
     public function index()
     {
-        $arr_admin = Admin::all();
-        $arr_teacher = Teacher::all();
-        $arr_student = Student::all();
-        $arr_subject = Subject::all();
+        $total_tugas = Meeting::where('teacher_id', '=', $this->teacher_id)->count();
+
         $data = [
             'page_title'    => "Dashboard",
             'content_title' => "Dashboard",
-            'total_admin'   => $arr_admin->count(),
-            'total_teacher' => $arr_teacher->count(),
-            'total_student' => $arr_student->count(),
-            'total_subject' => $arr_subject->count(),
+            'total_tugas'   => $total_tugas,
         ];
         return view('teacher.dashboard.main', $data);
     }

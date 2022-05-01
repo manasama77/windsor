@@ -14,6 +14,7 @@ use App\Http\Controllers\AdminSetupSchoolYearController;
 use App\Http\Controllers\AdminTeacherManagementController;
 use App\Http\Controllers\AdminTeacherSetupTeacherController;
 use App\Http\Controllers\AdminTeacherHomeroomTeacherController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\StudentMeetingController;
 use App\Http\Controllers\TeacherAttendanceController;
@@ -32,6 +33,14 @@ use App\Http\Controllers\TeacherMeetingController;
 */
 
 Route::get('/', [StudentController::class, 'index']);
+
+/* ------------------------------------------------------------------------------------------------------------------------------ */
+/* ----------- Start Search Route ----------- */
+Route::controller(SearchController::class)->group(function () {
+    Route::get('/search/student', 'autocomplete_student')->name('search.student');
+});
+/* ----------- End Search Route ----------- */
+/* ------------------------------------------------------------------------------------------------------------------------------ */
 
 
 /* ------------------------------------------------------------------------------------------------------------------------------ */
