@@ -12,7 +12,9 @@ class StudentWork extends Model
     protected $fillable = [
         'meeting_id',
         'student_id',
+        'file_name',
         'file_path',
+        'mime',
     ];
 
     protected $hidden = [

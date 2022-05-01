@@ -32,6 +32,19 @@
             </div>
             @endif
 
+            @if (Session::has('error'))
+            <div class="row">
+                <div class="col-12">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{{ Session::get('error') }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            @endif
+
             <!-- Small boxes (Stat box) -->
             <div class="row">
                 <div class="col-12">
@@ -131,6 +144,49 @@
                 </div>
                 @endif
             </div>
+            @if($meetings->is_task == true)
+            <div class="row">
+                <div class="col-sm-12 col-md-4 offset-md-4">
+                    <div class="card card-dark shadow-sm">
+                        <div class="card-header">
+                            <h3 class="card-title">Upload Tugas</h3>
+                        </div>
+                        <div class="card-body">
+                            <form action="{{ route('student.pertemuan.upload', $meetings->id) }}" method="post"
+                                enctype="multipart/form-data">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="file">Upload Tugas</label>
+                                    <input type="file" class="form-control" id="file" name="file" required />
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-save"></i>
+                                    Simpan</button>
+                            </form>
+                            @if($student_works != null)
+                            <hr />
+                            <table class="table table-bordered">
+                                <thead class="bg-dark">
+                                    <tr>
+                                        <th>File Tugas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <a href="{{ route('student.pertemuan.download.tugas', $student_works->id) }}"
+                                                target="_blank">
+                                                {{ $student_works->file_name }}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </section>

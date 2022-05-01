@@ -102,7 +102,9 @@ Route::prefix('student')->group(function () {
     Route::get('/pertemuan', [StudentMeetingController::class, 'index'])->name('student.pertemuan')->middleware('student');
     Route::get('/pertemuan/datatables', [StudentMeetingController::class, 'datatables'])->name('student.pertemuan.datatables')->middleware('student');
     Route::get('/pertemuan/show/{meeting_id}', [StudentMeetingController::class, 'show'])->name('student.pertemuan.show')->middleware('student');
+    Route::post('/pertemuan/upload/{meeting_id}', [StudentMeetingController::class, 'upload'])->name('student.pertemuan.upload')->middleware('student');
     Route::get('/pertemuan/download/{attachment_id}', [StudentMeetingController::class, 'download'])->name('student.pertemuan.download')->middleware('student');
+    Route::get('/pertemuan/download/tugas/{id}', [StudentMeetingController::class, 'download_tugas'])->name('student.pertemuan.download.tugas')->middleware('student');
     /* ----------- End Student -> Pertemuan ----------- */
     /* ------------------------------------------------------------------------------------------------------------------------------ */
 });
