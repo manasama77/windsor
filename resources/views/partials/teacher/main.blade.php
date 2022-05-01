@@ -34,7 +34,6 @@
     <link rel="stylesheet" href="{{ asset('adminlte3/plugins/summernote/summernote-bs4.min.css') }}">
     <!-- preloader css -->
     <link rel="stylesheet" href="{{ asset('css/preloader.css') }}">
-
     {{-- datatables --}}
     <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>

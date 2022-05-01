@@ -32,34 +32,36 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-sm-12 col-md-6">
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th>Tahun Ajar</th>
-                                                <th>{{ $meetings->homeroomTeacher->schoolYear->name }}</th>
+                                                <th class="align-top">Tahun Ajar</th>
+                                                <th class="align-top">{{ $meetings->homeroomTeacher->schoolYear->name }}
+                                                </th>
                                             </tr>
                                             <tr>
-                                                <th>Pengajar</th>
-                                                <th>{{ $meetings->teacher->name }}</th>
+                                                <th class="align-top">Pengajar</th>
+                                                <th class="align-top">{{ $meetings->teacher->name }}</th>
                                             </tr>
                                             <tr>
-                                                <th>Kelas</th>
-                                                <th>{{ $meetings->homeroomTeacher->classRoom->name }}</th>
+                                                <th class="align-top">Kelas</th>
+                                                <th class="align-top">{{ $meetings->homeroomTeacher->classRoom->name }}
+                                                </th>
                                             </tr>
                                         </thead>
                                     </table>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-sm-12 col-md-6">
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th>MAPEL</th>
-                                                <th>{{ $meetings->subject->name }}</th>
+                                                <th class="align-top">MAPEL</th>
+                                                <th class="align-top">{{ $meetings->subject->name }}</th>
                                             </tr>
                                             <tr>
-                                                <th>Judul</th>
-                                                <th>{{ $meetings->title }}</th>
+                                                <th class="align-top">Judul</th>
+                                                <th class="align-top">{{ $meetings->title }}</th>
                                             </tr>
                                         </thead>
                                     </table>

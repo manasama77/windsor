@@ -24,43 +24,6 @@ class TeacherMeetingController extends Controller
         return view('teacher.pertemuan.main', $data);
     }
 
-    public function test($id)
-    {
-        $exec = Meeting::with(['attachment', 'linkExternal'])->find($id);
-        foreach ($exec->attachment as $a) {
-            echo $a->id . " " . $a->name . "<br/>";
-        }
-        dd($exec);
-        // $old_attachment_collection = collect([
-        //     [
-        //         'id' => 3
-        //     ]
-        // ]);
-
-        // if ($old_attachment_collection->count() > 0) {
-        //     $meetingAttachments = MeetingAttachment::select('id')->where('meeting_id', '=', $id)->get();
-        //     $diffAttachment = $meetingAttachments->flatten()->diff($old_attachment_collection->flatten());
-
-        //     foreach ($diffAttachment as $key) {
-        //         $a = MeetingAttachment::select('id, path')->find($key->id)->first();
-        //         Storage::delete('public/' . $a->path);
-        //         MeetingAttachment::find($key->id)->delete();
-        //     }
-        // }
-
-        // $file = MeetingAttachment::find($id);
-
-        // $lampiran = Storage::get('public/' . $file->path);
-        // $temp = $file->name;
-        // $mime = $file->mime;
-        // file_put_contents($temp, $lampiran);
-        // header("Content-type: $mime");
-        // header("Content-Length: " . filesize($temp));
-        // readfile($temp);
-
-        // return response()->download('storage/' . $file->path, $file->name);
-    }
-
     public function datatables(Request $request)
     {
         if ($request->ajax()) {
@@ -208,10 +171,9 @@ class TeacherMeetingController extends Controller
         }
 
         $old_attachment_collection = collect($request->old_attachment);
-        // dd($old_attachment_collection->flatten());
 
         if ($old_attachment_collection->count() > 0) {
-            $attcCollection = collect();
+            $attcCollection     = collect();
             $meetingAttachments = MeetingAttachment::select('id')->where('meeting_id', '=', $meeting_id)->get();
 
             foreach ($meetingAttachments as $key) {

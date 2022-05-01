@@ -14,6 +14,8 @@ use App\Http\Controllers\AdminSetupSchoolYearController;
 use App\Http\Controllers\AdminTeacherManagementController;
 use App\Http\Controllers\AdminTeacherSetupTeacherController;
 use App\Http\Controllers\AdminTeacherHomeroomTeacherController;
+use App\Http\Controllers\StudentDashboardController;
+use App\Http\Controllers\StudentMeetingController;
 use App\Http\Controllers\TeacherAttendanceController;
 use App\Http\Controllers\TeacherDashboardController;
 use App\Http\Controllers\TeacherMeetingController;
@@ -54,7 +56,6 @@ Route::prefix('teacher')->group(function () {
     /* ------------------------------------------------------------------------------------------------------------------------------ */
     /* ----------- Start Teacher -> Pertemuan ----------- */
     Route::get('/pertemuan', [TeacherMeetingController::class, 'index'])->name('teacher.pertemuan')->middleware('teacher');
-    Route::get('/pertemuan/test/{id}', [TeacherMeetingController::class, 'test'])->name('teacher.pertemuan.test')->middleware('teacher');
     Route::get('/pertemuan/datatables', [TeacherMeetingController::class, 'datatables'])->name('teacher.pertemuan.datatables')->middleware('teacher');
     Route::get('/pertemuan/add', [TeacherMeetingController::class, 'add'])->name('teacher.pertemuan.add')->middleware('teacher');
     Route::post('/pertemuan/store', [TeacherMeetingController::class, 'store'])->name('teacher.pertemuan.store')->middleware('teacher');
@@ -84,10 +85,26 @@ Route::prefix('teacher')->group(function () {
 Route::prefix('student')->group(function () {
     Route::get('/login', [StudentController::class, 'index'])->name('student.login');
     Route::post('/login/auth', [StudentController::class, 'auth'])->name('student.auth');
-    Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard')->middleware('student');
     Route::get('/logout', [StudentController::class, 'logout'])->name('student.logout');
     Route::get('/register', [StudentController::class, 'register'])->name('student.register');
     Route::post('/store', [StudentController::class, 'store'])->name('student.store');
+    /* ------------------------------------------------------------------------------------------------------------------------------ */
+
+
+    /* ------------------------------------------------------------------------------------------------------------------------------ */
+    /* ----------- Start Student -> Dashboard ----------- */
+    Route::get('/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard')->middleware('student');
+    /* ----------- End Student -> Dashboard ----------- */
+    /* ------------------------------------------------------------------------------------------------------------------------------ */
+
+    /* ------------------------------------------------------------------------------------------------------------------------------ */
+    /* ----------- Start Student -> Pertemuan ----------- */
+    Route::get('/pertemuan', [StudentMeetingController::class, 'index'])->name('student.pertemuan')->middleware('student');
+    Route::get('/pertemuan/datatables', [StudentMeetingController::class, 'datatables'])->name('student.pertemuan.datatables')->middleware('student');
+    Route::get('/pertemuan/show/{meeting_id}', [StudentMeetingController::class, 'show'])->name('student.pertemuan.show')->middleware('student');
+    Route::get('/pertemuan/download/{attachment_id}', [StudentMeetingController::class, 'download'])->name('student.pertemuan.download')->middleware('student');
+    /* ----------- End Student -> Pertemuan ----------- */
+    /* ------------------------------------------------------------------------------------------------------------------------------ */
 });
 /* ----------- End Student Route ----------- */
 
@@ -104,16 +121,12 @@ Route::prefix('admin')->group(function () {
     Route::get('/register', [AdminController::class, 'register'])->name('admin.register');
     Route::post('/store', [AdminController::class, 'store'])->name('admin.store');
     /* ----------- End Admin Login & Logout ----------- */
-
-
     /* ------------------------------------------------------------------------------------------------------------------------------ */
 
-
+    /* ------------------------------------------------------------------------------------------------------------------------------ */
     /* ----------- Start Admin -> Dashboard ----------- */
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard')->middleware('admin');
     /* ----------- End Admin -> Dashboard ----------- */
-
-
     /* ------------------------------------------------------------------------------------------------------------------------------ */
 
 

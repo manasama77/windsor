@@ -40,7 +40,7 @@ class AdminStudentController extends Controller
     {
         $request->validate([
             'name'     => 'required|min:4',
-            'email'    => 'required|unique:teachers,email|:rfc,dns',
+            'email'    => 'required|unique:students,email|:rfc,dns',
             'password' => 'required|min:4|confirmed',
             'phone'    => 'required|min:5',
         ]);
