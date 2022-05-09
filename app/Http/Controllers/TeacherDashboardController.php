@@ -19,7 +19,7 @@ class TeacherDashboardController extends Controller
 
     public function __construct()
     {
-        $this->teacher_id = Auth::guard('teacher')->user()->id;
+        $this->teacher_id = Session::get('teacher_id');
     }
 
     public function index()

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Meeting;
 use App\Models\StudentWork;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\MeetingAttachment;
 use Illuminate\Routing\Controller;
@@ -22,13 +21,14 @@ class StudentMeetingController extends Controller
 
     public function __construct()
     {
-        $this->student_id          = Auth::guard('student')->user()->id;
+        $this->student_id          = Session::get('student_id');
         $this->class_id            = Session::get('class_id');
         $this->homeroom_teacher_id = Session::get('homeroom_teacher_id');
     }
 
     public function index()
     {
+        // dd(Auth::guard('student')->user()->id);
         $data = [
             'page_title'    => "Pertemuan",
             'content_title' => "Pertemuan",

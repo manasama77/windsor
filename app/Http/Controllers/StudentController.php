@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ClassRoomStudent;
 use Carbon\Carbon;
 use App\Models\Student;
-use App\Models\Teacher;
 use App\Models\SchoolYear;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+use App\Models\ClassRoomStudent;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -23,7 +21,11 @@ class StudentController extends Controller
     public function auth(Request $request)
     {
         if (Auth::guard('student')->attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
-            $this->init_session();
+            $init = $this->init_session();
+            if ($init === false) {
+                Auth::guard('student')->logout();
+                return redirect('/student/login')->with('error', 'Kamu Belum Memiliki Kelas');
+            }
             return redirect()->route('student.pertemuan')->with('success', 'Login Success');
         }
 
@@ -32,17 +34,27 @@ class StudentController extends Controller
 
     public function init_session()
     {
-        $arr_school_year = SchoolYear::where('is_active', 1)->first();
-        Session::put('active_year', ($arr_school_year->name) ?? null);
-
         $student_id = Auth::guard('student')->user()->id;
-        $class = ClassRoomStudent::select('homeroom_teachers.id as homeroom_teacher_id', 'class_rooms.id as class_id', 'class_rooms.name as class_name')->where('student_id', '=', $student_id)
+        $class = ClassRoomStudent::select('homeroom_teachers.id as homeroom_teacher_id', 'class_rooms.id as class_id', 'class_rooms.name as class_name')
+            ->where('student_id', '=', $student_id)
             ->leftJoin('homeroom_teachers', 'homeroom_teachers.id', '=', 'class_room_students.homeroom_teacher_id')
             ->leftJoin('class_rooms', 'class_rooms.id', '=', 'homeroom_teachers.class_room_id')
             ->first();
+
+        if ($class == null) {
+            return false;
+        }
+
+        Session::put('student_id', Auth::guard('student')->user()->id);
+        Session::put('student_name', Auth::guard('student')->user()->name);
         Session::put('class_id', $class->class_id);
         Session::put('class_name', $class->class_name);
         Session::put('homeroom_teacher_id', $class->homeroom_teacher_id);
+
+        $arr_school_year = SchoolYear::where('is_active', 1)->first();
+        Session::put('active_year', ($arr_school_year->name) ?? null);
+
+        return true;
     }
 
     public function register()

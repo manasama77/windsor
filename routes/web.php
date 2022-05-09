@@ -14,7 +14,6 @@ use App\Http\Controllers\AdminSetupSchoolYearController;
 use App\Http\Controllers\AdminTeacherManagementController;
 use App\Http\Controllers\AdminTeacherSetupTeacherController;
 use App\Http\Controllers\AdminTeacherHomeroomTeacherController;
-use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\StudentMeetingController;
 use App\Http\Controllers\TeacherAttendanceController;
@@ -84,8 +83,9 @@ Route::prefix('teacher')->group(function () {
 
 /* ----------- Start Student Route ----------- */
 Route::prefix('student')->group(function () {
-    Route::get('/login', [StudentController::class, 'index'])->name('student.login');
-    Route::post('/login/auth', [StudentController::class, 'auth'])->name('student.auth');
+    Route::get('/login', [StudentController::class, 'index'])->name('student.login')->middleware('web');
+    Route::get('/test', [StudentController::class, 'test'])->name('student.test')->middleware('web');
+    Route::post('/login/auth', [StudentController::class, 'auth'])->name('student.auth')->middleware('web');
     Route::get('/logout', [StudentController::class, 'logout'])->name('student.logout');
     Route::get('/register', [StudentController::class, 'register'])->name('student.register');
     Route::post('/store', [StudentController::class, 'store'])->name('student.store');
@@ -257,4 +257,4 @@ Route::prefix('admin')->group(function () {
 //     return view('dashboard');
 // })->middleware(['auth'])->name('dashboard');
 
-require __DIR__ . '/auth.php';
+// require __DIR__ . '/auth.php';

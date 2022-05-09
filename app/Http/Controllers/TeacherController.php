@@ -33,6 +33,9 @@ class TeacherController extends Controller
         $arr_school_year = SchoolYear::where('is_active', 1)->first();
         Session::put('active_year', ($arr_school_year->name) ?? null);
 
+        Session::put('teacher_id', Auth::guard('teacher')->user()->id);
+        Session::put('teacher_name', Auth::guard('teacher')->user()->name);
+
         $arr_teacher = Teacher::with(['class_room'])->withCount('homeroom_teacher')->find(Auth::guard('teacher')->user()->id);
         if ($arr_teacher->homeroom_teacher_count > 0) {
             $homeroom_name = "";

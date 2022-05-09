@@ -73,10 +73,13 @@ class TeacherMeetingController extends Controller
         $meeting->title               = $request->title;
         $meeting->description         = $request->description;
         $meeting->is_task             = $request->is_task;
-        $meeting->from_period         = $request->from_period;
-        $meeting->to_period           = $request->to_period;
-        if (!$meeting->save()) {
+        if ($request->is_task == 1) {
+            $meeting->from_period         = $request->from_period;
+            $meeting->to_period           = $request->to_period;
+        }
+        if ($meeting->save() === false) {
             DB::rollBack();
+            dd($meeting->save());
             return response()->json(['code' => 500], 500);
         }
         $meeting_id = $meeting->id;

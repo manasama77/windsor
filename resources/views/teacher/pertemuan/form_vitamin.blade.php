@@ -76,12 +76,14 @@
             if(e.length == 0){
 
             }else{
+                console.log(e)
                 $('#subject_id').html(``)
                 let htmlnya = `<option value=""></option>`
                 e.forEach(el => {
                     const id = el.id
+                    const subject_id = el.subject_id
                     const subject = el.subject?.name
-                    htmlnya += `<option value="${id}">${subject}</option>`
+                    htmlnya += `<option value="${subject_id}">${subject}</option>`
                 });
                 $('#subject_id').html(htmlnya).attr('disabled', false).attr('required', true)
             }
