@@ -35,14 +35,6 @@ class AdminSetupSchoolYearController extends Controller
                     $query->whereRaw($sql, ["%{$keyword}%"]);
                 })
                 ->toJson();
-            // return datatables()::of($data)
-            //     ->addIndexColumn()
-            //     ->addColumn('action', 'admin.setup.tahun_ajar.action')
-            //     ->filterColumn('is_active', function ($query, $keyword) {
-            //         $sql = "is_active LIKE ?";
-            //         $query->whereRaw($sql, ["%{$keyword}%"]);
-            //     })
-            //     ->make(true);
         }
     }
 
