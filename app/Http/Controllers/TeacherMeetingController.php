@@ -136,7 +136,7 @@ class TeacherMeetingController extends Controller
 
     public function edit($meeting_id)
     {
-        $meetings             = Meeting::find($meeting_id)->first();
+        $meetings             = Meeting::where('id', '=', $meeting_id)->first();
         $meetingAttachments   = MeetingAttachment::where('meeting_id', '=', $meeting_id)->get();
         $meetingLinkExternals = MeetingLinkExternal::where('meeting_id', '=', $meeting_id)->get();
         $setupTeachers        = SetupTeacher::with(['teacher' => function ($query) {

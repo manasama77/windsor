@@ -1,7 +1,6 @@
 <script>
     let idEdit = null
     const arrOldUrl = JSON.parse($('#old_link').val())
-    console.log(arrOldUrl)
     $(document).ready(function() {
         $.ajaxSetup({
             headers: {
@@ -53,13 +52,13 @@
             })
         })
 
-        $('#is_task').on('change', e => {
-            if($('#is_task :selected').val() == "1"){
-                $('#periode_aktif').attr('disabled', false).attr('required', true)
-            }else{
-                $('#periode_aktif').attr('disabled', true).attr('required', false)
-            }
-        })
+        // $('#is_task').on('change', e => {
+        //     if($('#is_task :selected').val() == "1"){
+        //         $('#periode_aktif').attr('disabled', false).attr('required', true)
+        //     }else{
+        //         $('#periode_aktif').attr('disabled', true).attr('required', false)
+        //     }
+        // })
 
         $('#form').on('submit', function(e){
             e.preventDefault()
@@ -81,12 +80,10 @@
         $.blockUI()
 
         setTimeout(() => {
-            $('#teacher_id').val(`{{ $meetings->teacher_id }}`)
+            $('#teacher_id').val(`{{ $meetings->teacher_id }}`).trigger('change')
             $('#homeroom_teacher_id').val(`{{ $meetings->homeroom_teacher_id }}`)
-            $('#is_task').val(`{{ $meetings->is_task }}`).trigger('change')
-            if($('#is_task').val() == "1"){
-                $('#periode_aktif').val(`${moment($('#from_period').val()).format('DD/MM/YYYY hh:mm A')} - ${moment($('#to_period').val()).format('DD/MM/YYYY hh:mm A')}`)
-            }
+            $('#is_task').val(`{{ $meetings->is_task }}`)
+            $('#periode_aktif').val(`${moment($('#from_period').val()).format('DD/MM/YYYY hh:mm A')} - ${moment($('#to_period').val()).format('DD/MM/YYYY hh:mm A')}`)
 
             let a = getMapelByTeacher(`{{ $meetings->teacher_id }}`)
             a.done(e => {
@@ -101,8 +98,9 @@
                     let htmlnya = `<option value=""></option>`
                     e.forEach(el => {
                         const id = el.id
+                        const subject_id = el.subject_id
                         const subject = el.subject?.name
-                        htmlnya += `<option value="${id}">${subject}</option>`
+                        htmlnya += `<option value="${subject_id}">${subject}</option>`
                     });
                     $('#subject_id').html(htmlnya).attr('disabled', false).attr('required', true).val(`{{ $meetings->subject_id }}`)
                 }

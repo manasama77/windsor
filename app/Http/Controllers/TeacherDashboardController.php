@@ -15,16 +15,9 @@ use Illuminate\Support\Facades\Session;
 class TeacherDashboardController extends Controller
 {
 
-    protected $teacher_id;
-
-    public function __construct()
-    {
-        $this->teacher_id = Session::get('teacher_id');
-    }
-
     public function index()
     {
-        $total_tugas = Meeting::where('teacher_id', '=', $this->teacher_id)->count();
+        $total_tugas = Meeting::where('teacher_id', '=', Session::get('teacher_id'))->count();
 
         $data = [
             'page_title'    => "Dashboard",

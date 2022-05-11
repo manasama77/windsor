@@ -30,6 +30,9 @@
                 },
                 {
                     data: null,
+                    name: null,
+                    searchable: false,
+                    orderable: false,
                     render: function(data, type, full, meta)
                     {
                         return `${moment(data.even_period_from).format("D MMMM YYYY")} — ${moment(data.even_period_to).format("D MMMM YYYY")}`
@@ -37,6 +40,9 @@
                 },
                 {
                     data: null,
+                    name: null,
+                    searchable: false,
+                    orderable: false,
                     render: function(data, type, full, meta)
                     {
                         return `${moment(data.odd_period_from).format("D MMMM YYYY")} — ${moment(data.odd_period_to).format("D MMMM YYYY")}`
@@ -44,6 +50,7 @@
                 },
                 {
                     data: null,
+                    name: 'is_active',
                     render: function(data, type, full, meta)
                     {
                         return (data.is_active == 1) ? "Aktif" : "Tidak Aktif"

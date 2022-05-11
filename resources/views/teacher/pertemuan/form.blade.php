@@ -100,7 +100,7 @@
                                 <div class="form-group">
                                     <label for="periode_aktif">Periode Aktif Tugas</label>
                                     <input type="text" class="form-control" id="periode_aktif" name="periode_aktif"
-                                        disabled />
+                                        required />
                                     <input type="hidden" id="from_period" name="from_period" />
                                     <input type="hidden" id="to_period" name="to_period" />
                                 </div>

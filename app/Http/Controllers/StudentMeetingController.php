@@ -15,20 +15,9 @@ use Illuminate\Support\Facades\Storage;
 
 class StudentMeetingController extends Controller
 {
-    protected $student_id;
-    protected $class_id;
-    protected $homeroom_teacher_id;
-
-    public function __construct()
-    {
-        $this->student_id          = Session::get('student_id');
-        $this->class_id            = Session::get('class_id');
-        $this->homeroom_teacher_id = Session::get('homeroom_teacher_id');
-    }
 
     public function index()
     {
-        // dd(Auth::guard('student')->user()->id);
         $data = [
             'page_title'    => "Pertemuan",
             'content_title' => "Pertemuan",
@@ -40,7 +29,7 @@ class StudentMeetingController extends Controller
     {
         if ($request->ajax()) {
             $data = Meeting::with(['homeroomTeacher.schoolYear', 'teacher', 'homeroomTeacher.classRoom', 'subject'])
-                ->where('homeroom_teacher_id', '=', $this->homeroom_teacher_id)
+                ->where('homeroom_teacher_id', '=', Session::get('homeroom_teacher_id'))
                 ->orderBy('id', 'desc')
                 ->get();
             return datatables()::of($data)
@@ -53,10 +42,10 @@ class StudentMeetingController extends Controller
 
     public function show($meeting_id)
     {
-        $meetings               = Meeting::with('attendance')->find($meeting_id)->first();
+        $meetings               = Meeting::with('attendance')->where('id', '=', $meeting_id)->first();
         $meeting_attachments    = MeetingAttachment::where('meeting_id', '=', $meeting_id)->get();
         $meeting_link_externals = MeetingLinkExternal::where('meeting_id', '=', $meeting_id)->get();
-        $student_works          = StudentWork::where('meeting_id', '=', $meeting_id)->where('student_id', '=', $this->student_id)->first();
+        $student_works          = StudentWork::where('meeting_id', '=', $meeting_id)->where('student_id', '=', Session::get('student_id'))->first();
 
         $current_period = Carbon::now();
         $from_period    = Carbon::createFromFormat('Y-m-d H:i:s', $meetings->from_period);
@@ -87,7 +76,7 @@ class StudentMeetingController extends Controller
 
     public function upload(Request $request, $meeting_id)
     {
-        $sw = StudentWork::where('meeting_id', '=', $meeting_id)->where('student_id', '=', $this->student_id)->first();
+        $sw = StudentWork::where('meeting_id', '=', $meeting_id)->where('student_id', '=', Session::get('student_id'))->first();
         if ($sw != null) {
             $fp = $sw->file_path;
             Storage::delete('public/' . $fp);
@@ -100,7 +89,7 @@ class StudentMeetingController extends Controller
         $folder_name = 'siswa/' . Auth::guard('teacher')->user()->id . "-" . Auth::guard('teacher')->user()->name;
         $path = $file->storeAs($folder_name, $name, 'public');
         $exec = StudentWork::updateOrCreate(
-            ['meeting_id' => $meeting_id, 'student_id' => $this->student_id],
+            ['meeting_id' => $meeting_id, 'student_id' => Session::get('student_id')],
             ['file_name' => $file->getClientOriginalName(), 'file_path' => $path, 'mime' => $file->getMimeType()]
         );
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SchoolYear;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Yajra\DataTables\Facades\DataTables;
 
 class AdminSetupSchoolYearController extends Controller
 {
@@ -20,12 +21,28 @@ class AdminSetupSchoolYearController extends Controller
     public function datatables(Request $request)
     {
         if ($request->ajax()) {
-            $data = SchoolYear::orderBy('id', 'desc')->get();
-            return datatables()::of($data)
+            $data = SchoolYear::orderBy('id', 'desc');
+            return DataTables::eloquent($data)
                 ->addIndexColumn()
                 ->addColumn('action', 'admin.setup.tahun_ajar.action')
-                ->rawColumns(['action'])
-                ->make(true);
+                ->filterColumn('is_active', function ($query, $keyword) {
+                    if (in_array(strtolower($keyword), ['aktif'])) {
+                        $keyword = 1;
+                    } elseif (in_array(strtolower($keyword), ['tidak aktif'])) {
+                        $keyword = 0;
+                    }
+                    $sql = "school_years.is_active LIKE ?";
+                    $query->whereRaw($sql, ["%{$keyword}%"]);
+                })
+                ->toJson();
+            // return datatables()::of($data)
+            //     ->addIndexColumn()
+            //     ->addColumn('action', 'admin.setup.tahun_ajar.action')
+            //     ->filterColumn('is_active', function ($query, $keyword) {
+            //         $sql = "is_active LIKE ?";
+            //         $query->whereRaw($sql, ["%{$keyword}%"]);
+            //     })
+            //     ->make(true);
         }
     }
 
