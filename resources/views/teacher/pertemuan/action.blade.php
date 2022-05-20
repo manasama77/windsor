@@ -3,6 +3,10 @@
         title="Presensi" class="btn btn-info">
         <i class="fas fa-calendar-check"></i>
     </a>
+    <a href="{{ route('teacher.penilaian', $id) }}" target="_blank" data-toggle="tooltip" data-placement="top"
+        title="Penilaian" class="btn btn-warning">
+        <i class="fas fa-tasks"></i>
+    </a>
     <a href="{{ route('teacher.pertemuan.edit', $id) }}" data-toggle="tooltip" data-placement="top" title="Edit"
         class="btn btn-success">
         <i class="fas fa-pencil-alt"></i>

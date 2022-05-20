@@ -71,7 +71,10 @@ class StudentMeetingController extends Controller
     public function download($attachment_id)
     {
         $file = MeetingAttachment::find($attachment_id);
-        return response()->download('storage/' . $file->path, $file->name);
+        if (!$file) return abort(401);
+        return response()->download('storage/' . $file->path, $file->name, [
+            'Content-Type' => $file->mime
+        ]);
     }
 
     public function upload(Request $request, $meeting_id)
@@ -103,6 +106,9 @@ class StudentMeetingController extends Controller
     public function download_tugas($id)
     {
         $file = StudentWork::find($id);
-        return response()->download('storage/' . $file->file_path, $file->file_name);
+        if (!$file) return abort(401);
+        return response()->download('storage/' . $file->file_path, $file->file_name, [
+            'Content-Type' => $file->mime
+        ]);
     }
 }

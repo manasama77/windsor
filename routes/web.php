@@ -18,6 +18,7 @@ use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\StudentMeetingController;
 use App\Http\Controllers\TeacherAttendanceController;
 use App\Http\Controllers\TeacherDashboardController;
+use App\Http\Controllers\TeacherEvaluationController;
 use App\Http\Controllers\TeacherMeetingController;
 
 /*
@@ -73,6 +74,14 @@ Route::prefix('teacher')->group(function () {
     Route::get('/presensi/cek_presensi/{meeting_id}', [TeacherAttendanceController::class, 'cek_presensi'])->name('teacher.presensi.cek_presensi')->middleware('teacher');
     Route::post('/presensi/upsert', [TeacherAttendanceController::class, 'upsert'])->name('teacher.presensi.upsert')->middleware('teacher');
     /* ----------- End Teacher -> Presensi ----------- */
+    /* ------------------------------------------------------------------------------------------------------------------------------ */
+
+    /* ------------------------------------------------------------------------------------------------------------------------------ */
+    /* ----------- Start Teacher -> Penilaian ----------- */
+    Route::get('/penilaian/{meeting_id}', [TeacherEvaluationController::class, 'index'])->name('teacher.penilaian')->middleware('teacher');
+    Route::get('/penilaian/download/{student_work_id}', [TeacherEvaluationController::class, 'download'])->name('teacher.penilaian.download')->middleware('teacher');
+    Route::post('/penilaian/upsert', [TeacherEvaluationController::class, 'upsert'])->name('teacher.penilaian.upsert')->middleware('teacher');
+    /* ----------- End Teacher -> Penilaian ----------- */
     /* ------------------------------------------------------------------------------------------------------------------------------ */
 });
 /* ----------- End Teacher Route ----------- */
