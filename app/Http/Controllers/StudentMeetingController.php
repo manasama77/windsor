@@ -85,11 +85,10 @@ class StudentMeetingController extends Controller
             Storage::delete('public/' . $fp);
         }
 
-
         $file = $request->file('file');
         $name = $file->hashName();
 
-        $folder_name = 'siswa/' . Auth::guard('teacher')->user()->id . "-" . Auth::guard('teacher')->user()->name;
+        $folder_name = 'siswa/' . Auth::guard('student')->user()->id . "-" . Auth::guard('student')->user()->name;
         $path = $file->storeAs($folder_name, $name, 'public');
         $exec = StudentWork::updateOrCreate(
             ['meeting_id' => $meeting_id, 'student_id' => Session::get('student_id')],
