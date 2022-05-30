@@ -6,7 +6,7 @@
     });
 
     $(document).ready(function() {
-        $('#student_id').bootstrapDualListbox()
+        $('#student_id').select2()
 
         $("#form").on("submit", (e) => {
             e.preventDefault()

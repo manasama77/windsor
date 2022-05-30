@@ -54,6 +54,8 @@ class StudentMeetingController extends Controller
         $can_upload = $current_period->gte($from_period);
         $can_upload = $current_period->lte($to_period);
 
+        $chatToken = base64_encode($meeting_id . ":" . Session::get('student_id'));
+
         $data = [
             'page_title'             => "Detail Pertemuan",
             'content_title'          => "Detail Pertemuan",
@@ -64,6 +66,7 @@ class StudentMeetingController extends Controller
             'can_upload'             => $can_upload,
             'from_period'            => $from_period,
             'to_period'              => $to_period,
+            'chatToken'              => $chatToken,
         ];
         return view('student.pertemuan.show', $data);
     }

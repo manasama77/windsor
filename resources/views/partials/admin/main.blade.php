@@ -45,6 +45,16 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap4-duallistbox/4.0.2/bootstrap-duallistbox.min.css"
         integrity="sha512-BcFCeKcQ0xb020bsj/ZtHYnUsvPh9jS8PNIdkmtVoWvPJRi2Ds9sFouAUBo0q8Bq0RA/RlIncn6JVYXFIw/iQA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            color: #000 !important;
+            padding-left: 30px !important;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+            left: -3px !important;
+        }
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">

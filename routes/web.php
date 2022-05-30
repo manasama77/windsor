@@ -14,6 +14,7 @@ use App\Http\Controllers\AdminSetupSchoolYearController;
 use App\Http\Controllers\AdminTeacherManagementController;
 use App\Http\Controllers\AdminTeacherSetupTeacherController;
 use App\Http\Controllers\AdminTeacherHomeroomTeacherController;
+use App\Http\Controllers\StudentChatController;
 use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\StudentMeetingController;
 use App\Http\Controllers\TeacherAttendanceController;
@@ -116,6 +117,17 @@ Route::prefix('student')->group(function () {
     Route::get('/pertemuan/download/{attachment_id}', [StudentMeetingController::class, 'download'])->name('student.pertemuan.download')->middleware('student');
     Route::get('/pertemuan/download/tugas/{id}', [StudentMeetingController::class, 'download_tugas'])->name('student.pertemuan.download.tugas')->middleware('student');
     /* ----------- End Student -> Pertemuan ----------- */
+    /* ------------------------------------------------------------------------------------------------------------------------------ */
+
+    /* ------------------------------------------------------------------------------------------------------------------------------ */
+    /* ----------- Start Student -> Chat Room ----------- */
+    Route::get('/chat/verify/{chatToken}', [StudentChatController::class, 'verify'])->name('student.chat.verify')->middleware('student');
+    Route::get('/chat/online/{chatToken}', [StudentChatController::class, 'online'])->name('student.chat.online')->middleware('student');
+    Route::get('/chat/online/set/{chatToken}', [StudentChatController::class, 'set_online'])->name('student.chat.online.set')->middleware('student');
+    Route::get('/chat/{chatToken}', [StudentChatController::class, 'index'])->name('student.chat')->middleware('student');
+    Route::get('/chat/send/{chatToken}', [StudentChatController::class, 'send'])->name('student.chat.send')->middleware('student');
+    Route::get('/chat/render/{chatToken}', [StudentChatController::class, 'render'])->name('student.chat.render')->middleware('student');
+    /* ----------- End Student -> Chat Room ----------- */
     /* ------------------------------------------------------------------------------------------------------------------------------ */
 });
 /* ----------- End Student Route ----------- */

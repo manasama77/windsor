@@ -83,8 +83,8 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="student_id">Siswa</label>
-                                    <select class="form-control" id="student_id" name="student_id" row="20" multiple
-                                        style="height: 400px;">
+                                    <select class="form-control select2" id="student_id" name="student_id" row="20"
+                                        data-placeholder="Pilih Siswa" multiple>
                                         @foreach ($availStudent as $students)
                                         <option value="{{ $students->id }}" @if(in_array($students->id,
                                             $usedStudent))

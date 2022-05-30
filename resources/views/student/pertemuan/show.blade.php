@@ -195,6 +195,14 @@
             </div>
             @endif
             @endif
+
+            <div class="row mb-3">
+                <div class="col-12">
+                    <a href="{{ route('student.chat.verify', $chatToken) }}" target="_blank"
+                        class="btn btn-primary btn-block">Join
+                        Chat Room</a>
+                </div>
+            </div>
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </section>
