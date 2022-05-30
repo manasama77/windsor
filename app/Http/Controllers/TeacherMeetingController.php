@@ -11,6 +11,7 @@ use App\Models\MeetingAttachment;
 use Illuminate\Support\Facades\DB;
 use App\Models\MeetingLinkExternal;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
 class TeacherMeetingController extends Controller
@@ -31,7 +32,6 @@ class TeacherMeetingController extends Controller
             return datatables()::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', 'teacher.pertemuan.action')
-                ->rawColumns(['action'])
                 ->make(true);
         }
     }

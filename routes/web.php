@@ -18,6 +18,7 @@ use App\Http\Controllers\StudentChatController;
 use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\StudentMeetingController;
 use App\Http\Controllers\TeacherAttendanceController;
+use App\Http\Controllers\TeacherChatController;
 use App\Http\Controllers\TeacherDashboardController;
 use App\Http\Controllers\TeacherEvaluationController;
 use App\Http\Controllers\TeacherMeetingController;
@@ -83,6 +84,17 @@ Route::prefix('teacher')->group(function () {
     Route::get('/penilaian/download/{student_work_id}', [TeacherEvaluationController::class, 'download'])->name('teacher.penilaian.download')->middleware('teacher');
     Route::post('/penilaian/upsert', [TeacherEvaluationController::class, 'upsert'])->name('teacher.penilaian.upsert')->middleware('teacher');
     /* ----------- End Teacher -> Penilaian ----------- */
+    /* ------------------------------------------------------------------------------------------------------------------------------ */
+
+    /* ------------------------------------------------------------------------------------------------------------------------------ */
+    /* ----------- Start Teacher -> Chat ----------- */
+    Route::get('/chat/verify/{chatToken}', [TeacherChatController::class, 'verify'])->name('teacher.chat.verify')->middleware('teacher');
+    Route::get('/chat/online/{chatToken}', [TeacherChatController::class, 'online'])->name('teacher.chat.online')->middleware('teacher');
+    Route::get('/chat/online/set/{chatToken}', [TeacherChatController::class, 'set_online'])->name('teacher.chat.online.set')->middleware('teacher');
+    Route::get('/chat/{chatToken}', [TeacherChatController::class, 'index'])->name('teacher.chat')->middleware('teacher');
+    Route::get('/chat/send/{chatToken}', [TeacherChatController::class, 'send'])->name('teacher.chat.send')->middleware('teacher');
+    Route::get('/chat/render/{chatToken}', [TeacherChatController::class, 'render'])->name('teacher.chat.render')->middleware('teacher');
+    /* ----------- End Teacher -> Chat ----------- */
     /* ------------------------------------------------------------------------------------------------------------------------------ */
 });
 /* ----------- End Teacher Route ----------- */

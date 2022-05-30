@@ -44,8 +44,8 @@
                             <div class="card-body">
                                 <form id="form">
                                     <div class="form-group" id="data-message">
-                                        <textarea id="message" class="form-control"
-                                            placeholder="Tulis Pesan..."></textarea>
+                                        <textarea id="message" class="form-control" placeholder="Tulis Pesan..."
+                                            rows="10"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-info btn-block"
@@ -107,7 +107,7 @@
     function getOnlineUser()
     {
         $.ajax({
-            url: `{{ route('student.chat.online', $chatToken) }}`,
+            url: `{{ route('teacher.chat.online', $chatToken) }}`,
             method: 'get',
             dataType: 'json',
         }).fail(e => {
@@ -137,7 +137,7 @@
     function setOnlineUser()
     {
         $.ajax({
-            url: `{{ route('student.chat.online.set', $chatToken) }}`,
+            url: `{{ route('teacher.chat.online.set', $chatToken) }}`,
             method: 'get',
             dataType: 'json',
         }).fail(e => {
@@ -154,7 +154,7 @@
     function sendMessage()
     {
         $.ajax({
-            url: `{{ route('student.chat.send', $chatToken) }}`,
+            url: `{{ route('teacher.chat.send', $chatToken) }}`,
             method: 'get',
             dataType: 'json',
             data: {
@@ -183,7 +183,7 @@
     function renderChats(scrollToBottom = false)
     {
         $.ajax({
-            url: `{{ route('student.chat.render', $chatToken) }}`,
+            url: `{{ route('teacher.chat.render', $chatToken) }}`,
             method: 'get',
             dataType: 'json',
         }).fail(e => {
@@ -212,8 +212,8 @@
                             <span class="badge badge-primary text-left">
                                 <i class="fas fa-user fa-fw"></i> ${key.name}
                             </span>
-                            <p class="text-muted text-left"><small>${ moment.parseZone(key.created_at).utcOffset('+0700').fromNow() }</small></p>
-                            <p class="text-justify" title="${key.name}">${key.message}</p>
+                            <p class="text-muted text-${key.align}"><small>${ moment.parseZone(key.created_at).utcOffset('+0700').fromNow() }</small></p>
+                            <p class="text-${key.align}" title="${key.name}">${key.message}</p>
                             <hr />
                         </div>
                         `

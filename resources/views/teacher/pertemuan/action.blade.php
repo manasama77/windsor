@@ -15,4 +15,8 @@
         data-original-title="Delete" class="delete btn btn-danger">
         <i class="fas fa-trash"></i>
     </a>
+    <a href="{{ route('teacher.chat.verify', base64_encode($id . ':' . Session::get('teacher_id')) ) }}" target="_blank"
+        data-toggle="tooltip" data-original-title="Join Chat" class="btn btn-primary">
+        <i class="fas fa-comment"></i>
+    </a>
 </div>
