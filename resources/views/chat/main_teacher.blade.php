@@ -45,7 +45,7 @@
                                 <form id="form">
                                     <div class="form-group" id="data-message">
                                         <textarea id="message" class="form-control" placeholder="Tulis Pesan..."
-                                            rows="10"></textarea>
+                                            rows="10" minlength="3" required></textarea>
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-info btn-block"
