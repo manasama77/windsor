@@ -12,8 +12,6 @@
             e.preventDefault()
             simpanData()
         })
-
-        // cekValue()
     })
 
     function simpanData() {
@@ -64,31 +62,5 @@
                 }, 2000);
             });        
         }
-    }
-
-    function cekValue() {
-        $.ajax({
-            url: `{{ url('/teacher/penilaian/cek_presensi') }}/${ $('#meeting_id').val() }`,
-            method: "GET",
-            dataType: 'json',
-            beforeSend: function() {
-                $('#vdata').block({
-                    message: `<i class="fas fa-spinner fa-spin"></i>`
-                })
-            }
-        }).fail(e => {
-            console.log("fail", e)
-            $('#error').html(e.responseText)
-            $('#vdata').unblock()
-        }).done(e => {
-            if (e.code == 200) {
-                e.data.forEach(el => {
-                    $(`#student_id_${el.student_id} select`).val(el.status_presence)
-                    $(`#student_id_${el.student_id} input`).val(el.description)
-                });
-            }
-
-            $('#vdata').unblock()
-        });
     }
 </script>
