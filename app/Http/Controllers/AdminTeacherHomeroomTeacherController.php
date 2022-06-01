@@ -38,7 +38,7 @@ class AdminTeacherHomeroomTeacherController extends Controller
 
     public function show($id)
     {
-        $admin = HomeroomTeacher::find($id);
+        $admin = HomeroomTeacher::with('classRoom')->find($id);
         return response()->json($admin);
     }
 

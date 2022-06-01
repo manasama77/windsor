@@ -11,11 +11,6 @@
             selector: '[data-toggle=tooltip]'
         });
 
-        $('#form_reset').on('submit', e => {
-            e.preventDefault()
-            resetDataPassword()
-        })
-
         $('#form_edit').on('submit', e => {
             e.preventDefault()
             updateData()
@@ -125,9 +120,9 @@
         }).fail(e => {
             console.log(e)
         }).done(e => {
-            console.log(e)
             $('#school_year_id_edit').val(e.school_year_id)
             $('#teacher_id_edit').val(e.teacher_id)
+            $('#class_room_name_edit').val(e.class_room.name)
             $('#class_room_id_edit').val(e.class_room_id)
             $('#modal_edit').modal('show')
         })
@@ -143,7 +138,7 @@
                 $('#btn_edit').text('Processing...').attr('disabled', true)
             }
         }).fail(e => {
-            console.log(e)
+            console.log(e.responseText)
             $('#btn_edit').text('Simpan').attr('disabled', false)
         }).done(e => {
             if (e.code == 200) {
@@ -158,6 +153,7 @@
                     $('#modal_edit').modal('hide')
                     let oTable = $('.datatables').dataTable();
                     oTable.fnDraw(false);
+                    $('#btn_edit').text('Simpan').attr('disabled', false)
                 })
             } else {
                 Swal.fire({
@@ -170,6 +166,7 @@
                     showConfirmButton: false,
                 }).then(() => {
                     $('#modal_edit').modal('hide')
+                    $('#btn_edit').text('Simpan').attr('disabled', false)
                 })
             }
         })

@@ -31,12 +31,19 @@ class TeacherController extends Controller
     public function init_session()
     {
         $arr_school_year = SchoolYear::where('is_active', 1)->first();
-        Session::put('active_year', ($arr_school_year->name) ?? null);
 
+        // REMOVE PRSET SESSION
+        Session::remove('active_year');
+        Session::remove('teacher_name');
+        Session::remove('homeroom_name');
+        Session::remove('subjects');
+
+        Session::put('active_year', ($arr_school_year->name) ?? null);
         Session::put('teacher_id', Auth::guard('teacher')->user()->id);
         Session::put('teacher_name', Auth::guard('teacher')->user()->name);
 
-        $arr_teacher = Teacher::with(['class_room'])->withCount('homeroom_teacher')->find(Auth::guard('teacher')->user()->id);
+        $arr_teacher = Teacher::with(['setup_teacher', 'class_room'])->withCount('homeroom_teacher')->find(Auth::guard('teacher')->user()->id);
+        // dd($arr_teacher);
         if ($arr_teacher->homeroom_teacher_count > 0) {
             $homeroom_name = "";
             foreach ($arr_teacher->class_room as $key) {
@@ -44,6 +51,13 @@ class TeacherController extends Controller
             }
             Session::put('homeroom_name', $homeroom_name);
         }
+
+        $arr_subject = [];
+        foreach ($arr_teacher->setup_teacher as $key) {
+            $subject_name = $key->subject->name;
+            array_push($arr_subject, $subject_name);
+        }
+        Session::put('subjects', $arr_subject);
     }
 
     public function register()

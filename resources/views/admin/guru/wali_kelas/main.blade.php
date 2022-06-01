@@ -143,16 +143,9 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="class_room_id_edit">Kelas</label>
-                        <select class="form-control" id="class_room_id_edit" name="class_room_id" required>
-                            <option value=""></option>
-                            {{-- @foreach ($classrooms as $classroom)
-                            <option value="{{ $classroom->id }}">{{ $classroom->name }} - {{
-                                Str::upper($classroom->class_room_type) }} - {{
-                                Str::upper($classroom->vocational_type)
-                                }}</option>
-                            @endforeach --}}
-                        </select>
+                        <label for="class_room_name_edit">Kelas</label>
+                        <input type="text" class="form-control" id="class_room_name_edit" readonly required />
+                        <input type="hidden" id="class_room_id_edit" name="class_room_id" />
                     </div>
                     <div class="form-group">
                         <label for="teacher_id_edit">Guru</label>

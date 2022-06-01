@@ -18,7 +18,15 @@
                 <a href="#" class="d-block">
                     {{ Auth::guard('teacher')->user()->name }}
                     @if (Session::get('homeroom_name'))
-                    <br /><small>Wali Kelas - {{ Session::get('homeroom_name') }}</small>
+                    <br /><small>Wali Kelas<br />{{ Session::get('homeroom_name') }}</small>
+                    @endif
+                    @if(Session::get('subjects'))
+                    <br />
+                    @foreach (Session::get('subjects') as $key)
+                    <span class="badge badge-info mr-2">
+                        {{ $key }}
+                    </span>
+                    @endforeach
                     @endif
                 </a>
             </div>

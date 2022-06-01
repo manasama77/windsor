@@ -17,6 +17,7 @@ class TeacherDashboardController extends Controller
 
     public function index()
     {
+        // dd(Session::all());
         $total_tugas = Meeting::where('teacher_id', '=', Session::get('teacher_id'))->count();
 
         $data = [

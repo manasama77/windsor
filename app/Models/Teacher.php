@@ -51,4 +51,9 @@ class Teacher extends Authenticatable
     {
         return $this->belongsToMany(ClassRoom::class, 'homeroom_teachers', 'teacher_id', 'class_room_id');
     }
+
+    public function setup_teacher()
+    {
+        return $this->hasMany(SetupTeacher::class);
+    }
 }
