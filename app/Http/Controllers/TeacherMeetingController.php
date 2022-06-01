@@ -54,11 +54,16 @@ class TeacherMeetingController extends Controller
 
         $homeRoomTeachers = HomeroomTeacher::with('classRoom')->where('school_year_id', '=', $school_year->id)->get();
 
+        $subjects = SetupTeacher::with('subject')->where('school_year_id', '=', $school_year->id)
+            ->where('teacher_id', '=', Session::get('teacher_id'))->get();
+
         $data = [
             'page_title'       => "Management Pertemuan",
             'content_title'    => "Management Pertemuan",
+            'school_year'      => $school_year,
             'setupTeachers'    => $setupTeachers,
             'homeRoomTeachers' => $homeRoomTeachers,
+            'subjects'         => $subjects,
         ];
         return view('teacher.pertemuan.form', $data);
     }
@@ -67,12 +72,12 @@ class TeacherMeetingController extends Controller
     {
         DB::beginTransaction();
         $meeting                      = new Meeting();
-        $meeting->teacher_id          = $request->teacher_id;
+        $meeting->teacher_id          = Session::get('teacher_id');
         $meeting->subject_id          = $request->subject_id;
         $meeting->homeroom_teacher_id = $request->homeroom_teacher_id;
         $meeting->active_date         = $request->active_date;
         $meeting->title               = $request->title;
-        $meeting->description         = $request->description;
+        $meeting->description         = strip_tags(trim(nl2br($request->description)));
         $meeting->is_task             = $request->is_task;
         if ($request->is_task == 1) {
             $meeting->from_period         = $request->from_period;
@@ -148,6 +153,9 @@ class TeacherMeetingController extends Controller
 
         $homeRoomTeachers = HomeroomTeacher::with('classRoom')->where('school_year_id', '=', $school_year->id)->get();
 
+        $subjects = SetupTeacher::with('subject')->where('school_year_id', '=', $school_year->id)
+            ->where('teacher_id', '=', Session::get('teacher_id'))->get();
+
         $data = [
             'page_title'           => "Management Pertemuan",
             'content_title'        => "Management Pertemuan",
@@ -157,6 +165,7 @@ class TeacherMeetingController extends Controller
             'meetingLinkExternals' => $meetingLinkExternals->toJson(),
             'setupTeachers'        => $setupTeachers,
             'homeRoomTeachers'     => $homeRoomTeachers,
+            'subjects'             => $subjects,
         ];
         return view('teacher.pertemuan.form_edit', $data);
     }
@@ -164,10 +173,11 @@ class TeacherMeetingController extends Controller
     public function update(Request $request, $meeting_id)
     {
         DB::beginTransaction();
-        $meeting                      = Meeting::find($meeting_id);
-        $meeting->teacher_id          = $request->teacher_id;
+        $meeting = Meeting::find($meeting_id);
+        // $meeting->teacher_id          = $request->teacher_id;
         $meeting->subject_id          = $request->subject_id;
         $meeting->homeroom_teacher_id = $request->homeroom_teacher_id;
+        $meeting->active_date         = $request->active_date;
         $meeting->title               = $request->title;
         $meeting->description         = $request->description;
         $meeting->is_task             = $request->is_task;
@@ -187,7 +197,6 @@ class TeacherMeetingController extends Controller
             }
 
             $diffAttachment = $attcCollection->diff($old_attachment_collection);
-            // dd($diffAttachment);
 
             foreach ($diffAttachment->all() as $key => $val) {
                 $a = MeetingAttachment::select(['id', 'path'])->where('id', '=', $val)->first();

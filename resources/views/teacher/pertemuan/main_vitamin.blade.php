@@ -28,7 +28,7 @@
                 {
                     data: null,
                     render: function(data, type, full, meta) {
-                        const d = moment(data.created_at)
+                        const d = moment(data.active_date)
                         const oddFrom = moment(data.homeroom_teacher.school_year.odd_period_from)
                         const oddTo = moment(data.homeroom_teacher.school_year.odd_period_to)
                         const evenFrom = moment(data.homeroom_teacher.school_year.even_period_from)

@@ -20,18 +20,14 @@
             }
         });
 
-        $("body").tooltip({
-            selector: '[data-toggle=tooltip]'
-        });
-
         $('#button_add_link').on('click', e => {
             generateNewLinkForm()
         })
 
-        $('#teacher_id').on('change', e => {
-            const teacher_id = $('#teacher_id :selected').val()
-            getMapelByTeacher(teacher_id)
-        })
+        // $('#teacher_id').on('change', e => {
+        //     const teacher_id = $('#teacher_id :selected').val()
+        //     getMapelByTeacher(teacher_id)
+        // })
 
         $('#is_task').on('change', e => {
             if($('#is_task :selected').val() == "1"){
@@ -53,42 +49,42 @@
             processStore(formData)
         })
 
-        initData()
+        // initData()
     })
 
-    function initData()
-    {
-        $('#teacher_id').val(`{{ Auth::guard('teacher')->user()->id }}`).trigger('change')
-    }
+    // function initData()
+    // {
+    //     $('#teacher_id').val(`{{ Auth::guard('teacher')->user()->id }}`).trigger('change')
+    // }
 
-    function getMapelByTeacher(teacher_id)
-    {
-        $.ajax({
-            url: `{{ url('teacher/pertemuan/show/subject') }}/${teacher_id}`,
-            method: 'get',
-            dataType: 'json',
-            beforeSend: e => {
-                //
-            }
-        }).fail(e => {
-            console.log(e)
-        }).done(e => {
-            if(e.length == 0){
+    // function getMapelByTeacher(teacher_id)
+    // {
+    //     $.ajax({
+    //         url: `{{ url('teacher/pertemuan/show/subject') }}/${teacher_id}`,
+    //         method: 'get',
+    //         dataType: 'json',
+    //         beforeSend: e => {
+    //             //
+    //         }
+    //     }).fail(e => {
+    //         console.log(e)
+    //     }).done(e => {
+    //         if(e.length == 0){
 
-            }else{
-                console.log(e)
-                $('#subject_id').html(``)
-                let htmlnya = `<option value=""></option>`
-                e.forEach(el => {
-                    const id = el.id
-                    const subject_id = el.subject_id
-                    const subject = el.subject?.name
-                    htmlnya += `<option value="${subject_id}">${subject}</option>`
-                });
-                $('#subject_id').html(htmlnya).attr('disabled', false).attr('required', true)
-            }
-        })
-    }
+    //         }else{
+    //             console.log(e)
+    //             $('#subject_id').html(``)
+    //             let htmlnya = `<option value=""></option>`
+    //             e.forEach(el => {
+    //                 const id = el.id
+    //                 const subject_id = el.subject_id
+    //                 const subject = el.subject?.name
+    //                 htmlnya += `<option value="${subject_id}">${subject}</option>`
+    //             });
+    //             $('#subject_id').html(htmlnya).attr('disabled', false).attr('required', true)
+    //         }
+    //     })
+    // }
 
     function generateNewLinkForm()
     {

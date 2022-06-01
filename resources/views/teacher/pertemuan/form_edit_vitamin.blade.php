@@ -21,36 +21,32 @@
             $(this).val(picker.startDate.format('DD/MM/YYYY hh:mm A') + ' - ' + picker.endDate.format('DD/MM/YYYY hh:mm A'));
         });
 
-        $("body").tooltip({
-            selector: '[data-toggle=tooltip]'
-        });
-
         $('#button_add_link').on('click', e => {
             generateNewLinkForm()
         })
 
-        $('#teacher_id').on('change', e => {
-            const teacher_id = $('#teacher_id :selected').val()
-            let a = getMapelByTeacher(teacher_id)
-            a.done(e => {
-                if(e.length == 0){
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Oops...',
-                        text: `${$('#teacher_id :selected').text()} Tidak memiliki MAPEL`,
-                    })
-                }else{
-                    $('#subject_id').html(``)
-                    let htmlnya = `<option value=""></option>`
-                    e.forEach(el => {
-                        const id = el.id
-                        const subject = el.subject?.name
-                        htmlnya += `<option value="${id}">${subject}</option>`
-                    });
-                    $('#subject_id').html(htmlnya).attr('disabled', false).attr('required', true)
-                }
-            })
-        })
+        // $('#teacher_id').on('change', e => {
+        //     const teacher_id = $('#teacher_id :selected').val()
+        //     let a = getMapelByTeacher(teacher_id)
+        //     a.done(e => {
+        //         if(e.length == 0){
+        //             Swal.fire({
+        //                 icon: 'warning',
+        //                 title: 'Oops...',
+        //                 text: `${$('#teacher_id :selected').text()} Tidak memiliki MAPEL`,
+        //             })
+        //         }else{
+        //             $('#subject_id').html(``)
+        //             let htmlnya = `<option value=""></option>`
+        //             e.forEach(el => {
+        //                 const id = el.id
+        //                 const subject = el.subject?.name
+        //                 htmlnya += `<option value="${id}">${subject}</option>`
+        //             });
+        //             $('#subject_id').html(htmlnya).attr('disabled', false).attr('required', true)
+        //         }
+        //     })
+        // })
 
         $('#is_task').on('change', e => {
             if($('#is_task :selected').val() == "1"){
@@ -80,31 +76,33 @@
         $.blockUI()
 
         setTimeout(() => {
-            $('#teacher_id').val(`{{ $meetings->teacher_id }}`).trigger('change')
+            // $('#teacher_id').val(`{{ $meetings->teacher_id }}`).trigger('change')
             $('#homeroom_teacher_id').val(`{{ $meetings->homeroom_teacher_id }}`)
             $('#periode_aktif').val(`${moment($('#from_period').val()).format('DD/MM/YYYY hh:mm A')} - ${moment($('#to_period').val()).format('DD/MM/YYYY hh:mm A')}`)
+            $('#subject_id').val(`{{ $meetings->subject_id }}`)
+            $('#active_date').val(`{{ $meetings->active_date }}`)
             $('#is_task').val(`{{ $meetings->is_task }}`).trigger('change')
 
-            let a = getMapelByTeacher(`{{ $meetings->teacher_id }}`)
-            a.done(e => {
-                if(e.length == 0){
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Oops...',
-                        text: `${$('#teacher_id :selected').text()} Tidak memiliki MAPEL`,
-                    })
-                }else{
-                    $('#subject_id').html(``)
-                    let htmlnya = `<option value=""></option>`
-                    e.forEach(el => {
-                        const id = el.id
-                        const subject_id = el.subject_id
-                        const subject = el.subject?.name
-                        htmlnya += `<option value="${subject_id}">${subject}</option>`
-                    });
-                    $('#subject_id').html(htmlnya).attr('disabled', false).attr('required', true).val(`{{ $meetings->subject_id }}`)
-                }
-            })
+            // let a = getMapelByTeacher(`{{ $meetings->teacher_id }}`)
+            // a.done(e => {
+            //     if(e.length == 0){
+            //         Swal.fire({
+            //             icon: 'warning',
+            //             title: 'Oops...',
+            //             text: `${$('#teacher_id :selected').text()} Tidak memiliki MAPEL`,
+            //         })
+            //     }else{
+            //         $('#subject_id').html(``)
+            //         let htmlnya = `<option value=""></option>`
+            //         e.forEach(el => {
+            //             const id = el.id
+            //             const subject_id = el.subject_id
+            //             const subject = el.subject?.name
+            //             htmlnya += `<option value="${subject_id}">${subject}</option>`
+            //         });
+            //         $('#subject_id').html(htmlnya).attr('disabled', false).attr('required', true).val(`{{ $meetings->subject_id }}`)
+            //     }
+            // })
 
             let htmlnya = ``;
             arrOldUrl.forEach(el => {
@@ -130,19 +128,19 @@
         $(`#row_${id}`).remove()
     }
 
-    function getMapelByTeacher(teacher_id)
-    {
-        return $.ajax({
-            url: `{{ url('teacher/pertemuan/show/subject') }}/${teacher_id}`,
-            method: 'get',
-            dataType: 'json',
-            beforeSend: e => {
-                //
-            }
-        }).fail(e => {
-            console.log(e)
-        })
-    }
+    // function getMapelByTeacher(teacher_id)
+    // {
+    //     return $.ajax({
+    //         url: `{{ url('teacher/pertemuan/show/subject') }}/${teacher_id}`,
+    //         method: 'get',
+    //         dataType: 'json',
+    //         beforeSend: e => {
+    //             //
+    //         }
+    //     }).fail(e => {
+    //         console.log(e)
+    //     })
+    // }
 
     function generateNewLinkForm()
     {

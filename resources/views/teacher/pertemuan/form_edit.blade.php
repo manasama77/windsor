@@ -40,7 +40,7 @@
                 @csrf
                 <div class="row">
                     <div class="col-sm-12 col-md-6">
-                        <div class="card card-secondary shadow-sm">
+                        <div class="card card-primary shadow-sm">
                             <div class="card-header">
                                 <h3 class="card-title">Informasi Pertemuan</h3>
                                 <div class="card-tools">
@@ -52,14 +52,16 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="teacher_id">Pengajar</label>
-                                    <select class="form-control" id="teacher_id" name="teacher_id" required>
+                                    <input type="text" class="form-control" id="teacher_name" name="teacher_name"
+                                        value="{{ Session::get('teacher_name') }}" required readonly />
+                                    {{-- <select class="form-control" id="teacher_id" name="teacher_id" required>
                                         <option value=""></option>
                                         @foreach ($setupTeachers as $setupTeacher)
                                         <option value="{{ $setupTeacher->teacher->id }}">{{
                                             $setupTeacher->teacher->name
                                             }}</option>
                                         @endforeach
-                                    </select>
+                                    </select> --}}
                                     @error('teacher_id')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                     @enderror
@@ -80,12 +82,20 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="subject_id">MAPEL</label>
-                                    <select class="form-control" id="subject_id" name="subject_id" disabled>
+                                    <select class="form-control" id="subject_id" name="subject_id">
                                         <option value=""></option>
+                                        @foreach ($subjects as $key)
+                                        <option value="{{ $key->subject_id }}">{{ $key->subject->name }}</option>
+                                        @endforeach
                                     </select>
                                     @error('subject_id')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                     @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="active_date">Tanggal Aktif Pertemuan</label>
+                                    <input type="date" class="form-control" id="active_date" name="active_date"
+                                        required />
                                 </div>
                                 <div class="form-group">
                                     <label for="is_task">Berikan Tugas ?</label>
@@ -110,7 +120,7 @@
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6">
-                        <div class="card card-secondary shadow-sm">
+                        <div class="card card-info shadow-sm">
                             <div class="card-header">
                                 <h3 class="card-title">Detail Pertemuan</h3>
                                 <div class="card-tools">
@@ -143,7 +153,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12 col-md-6">
-                        <div class="card card-secondary shadow-sm">
+                        <div class="card card-warning shadow-sm">
                             <div class="card-header">
                                 <h3 class="card-title">Lampiran Pertemuan</h3>
                                 <div class="card-tools">
@@ -195,7 +205,7 @@
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6">
-                        <div class="card card-secondary shadow-sm">
+                        <div class="card card-danger shadow-sm">
                             <div class="card-header">
                                 <h3 class="card-title">Link External</h3>
                                 <input type="hidden" id="old_link" value="{{ $meetingLinkExternals }}" />

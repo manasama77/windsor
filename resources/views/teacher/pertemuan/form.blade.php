@@ -40,7 +40,7 @@
                 @csrf
                 <div class="row">
                     <div class="col-sm-12 col-md-6">
-                        <div class="card card-secondary shadow-sm">
+                        <div class="card card-primary shadow-sm">
                             <div class="card-header">
                                 <h3 class="card-title">Informasi Pertemuan</h3>
                                 <div class="card-tools">
@@ -51,8 +51,10 @@
                             </div>
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="teacher_id">Pengajar</label>
-                                    <select class="form-control" id="teacher_id" name="teacher_id" required>
+                                    <label for="teacher_name">Pengajar</label>
+                                    <input type="text" class="form-control" id="teacher_name" name="teacher_name"
+                                        value="{{ Session::get('teacher_name') }}" required readonly />
+                                    {{-- <select class="form-control" id="teacher_id" name="teacher_id" required>
                                         <option value=""></option>
                                         @foreach ($setupTeachers as $setupTeacher)
                                         <option value="{{ $setupTeacher->teacher->id }}">{{
@@ -62,7 +64,7 @@
                                     </select>
                                     @error('teacher_id')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                    @enderror
+                                    @enderror --}}
                                 </div>
                                 <div class="form-group">
                                     <label for="homeroom_teacher_id">Kelas</label>
@@ -80,8 +82,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="subject_id">MAPEL</label>
-                                    <select class="form-control" id="subject_id" name="subject_id" disabled>
+                                    <select class="form-control" id="subject_id" name="subject_id">
                                         <option value=""></option>
+                                        @foreach ($subjects as $key)
+                                        <option value="{{ $key->subject_id }}">{{ $key->subject->name }}</option>
+                                        @endforeach
                                     </select>
                                     @error('subject_id')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
@@ -90,7 +95,8 @@
                                 <div class="form-group">
                                     <label for="active_date">Tanggal Aktif Pertemuan</label>
                                     <input type="date" class="form-control" id="active_date" name="active_date"
-                                        required />
+                                        min="{{ $school_year->even_period_from }}"
+                                        max="{{ $school_year->odd_period_to }}" required />
                                 </div>
                                 <div class="form-group">
                                     <label for="is_task">Berikan Tugas ?</label>
@@ -105,7 +111,7 @@
                                 <div class="form-group">
                                     <label for="periode_aktif">Periode Aktif Tugas</label>
                                     <input type="text" class="form-control" id="periode_aktif" name="periode_aktif"
-                                        required />
+                                        disabled />
                                     <input type="hidden" id="from_period" name="from_period" />
                                     <input type="hidden" id="to_period" name="to_period" />
                                 </div>
@@ -113,7 +119,7 @@
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6">
-                        <div class="card card-secondary shadow-sm">
+                        <div class="card card-info shadow-sm">
                             <div class="card-header">
                                 <h3 class="card-title">Detail Pertemuan</h3>
                                 <div class="card-tools">
@@ -125,7 +131,8 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="title">Judul</label>
-                                    <input type="text" class="form-control" id="title" name="title" required />
+                                    <input type="text" class="form-control" id="title" name="title"
+                                        placeholder="Judul Pertemuan" required />
                                     @error('title')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                     @enderror
@@ -133,7 +140,7 @@
                                 <div class="form-group">
                                     <label for="description">Deskripsi</label>
                                     <textarea class="form-control" id="description" name="description"
-                                        placeholder="Deskripsi" rows="11" required></textarea>
+                                        placeholder="Deskripsi Pertemuan" rows="15" required></textarea>
                                     @error('description')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                     @enderror
@@ -144,7 +151,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12 col-md-6">
-                        <div class="card card-secondary shadow-sm">
+                        <div class="card card-warning shadow-sm">
                             <div class="card-header">
                                 <h3 class="card-title">Lampiran Pertemuan</h3>
                                 <div class="card-tools">
@@ -168,7 +175,7 @@
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6">
-                        <div class="card card-secondary shadow-sm">
+                        <div class="card card-danger shadow-sm">
                             <div class="card-header">
                                 <h3 class="card-title">Link External</h3>
                                 <div class="card-tools">

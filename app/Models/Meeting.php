@@ -14,6 +14,7 @@ class Meeting extends Model
         'teacher_id',
         'subject_id',
         'homeroom_teacher_id',
+        'active_date',
         'title',
         'description',
         'is_task',
