@@ -77,6 +77,7 @@
 
         setTimeout(() => {
             // $('#teacher_id').val(`{{ $meetings->teacher_id }}`).trigger('change')
+            $('#teacher_name').val(`{{ $meetings->teacher->name }}`)
             $('#homeroom_teacher_id').val(`{{ $meetings->homeroom_teacher_id }}`)
             $('#periode_aktif').val(`${moment($('#from_period').val()).format('DD/MM/YYYY hh:mm A')} - ${moment($('#to_period').val()).format('DD/MM/YYYY hh:mm A')}`)
             $('#subject_id').val(`{{ $meetings->subject_id }}`)

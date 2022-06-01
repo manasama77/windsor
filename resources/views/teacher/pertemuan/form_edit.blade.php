@@ -53,7 +53,7 @@
                                 <div class="form-group">
                                     <label for="teacher_id">Pengajar</label>
                                     <input type="text" class="form-control" id="teacher_name" name="teacher_name"
-                                        value="{{ Session::get('teacher_name') }}" required readonly />
+                                        required readonly />
                                     {{-- <select class="form-control" id="teacher_id" name="teacher_id" required>
                                         <option value=""></option>
                                         @foreach ($setupTeachers as $setupTeacher)

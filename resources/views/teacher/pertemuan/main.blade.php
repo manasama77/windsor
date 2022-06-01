@@ -50,7 +50,7 @@
                                     <tr>
                                         <th style="width: 10px">#</th>
                                         <th>Tahun Ajar</th>
-                                        <th>Periode</th>
+                                        <th>Semester</th>
                                         <th>Pengajar</th>
                                         <th>Kelas</th>
                                         <th>MAPEL</th>

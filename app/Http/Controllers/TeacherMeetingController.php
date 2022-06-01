@@ -28,7 +28,7 @@ class TeacherMeetingController extends Controller
     public function datatables(Request $request)
     {
         if ($request->ajax()) {
-            $data = Meeting::with(['homeroomTeacher.schoolYear', 'teacher', 'homeroomTeacher.classRoom', 'subject'])->orderBy('id', 'desc')->get();
+            $data = Meeting::with(['homeroomTeacher.schoolYear', 'teacher', 'homeroomTeacher.classRoom', 'subject'])->where('teacher_id', '=', Session::get('teacher_id'))->orderBy('id', 'desc')->get();
             return datatables()::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', 'teacher.pertemuan.action')

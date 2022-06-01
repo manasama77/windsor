@@ -32,17 +32,34 @@
                                             <thead>
                                                 <tr>
                                                     <th class="align-top">Tahun Ajar</th>
-                                                    <th class="align-top">{{ $meetings->school_year }}
+                                                    <th class="align-top">
+                                                        {{ $meetings->homeroomTeacher->schoolYear->name }}
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th class="align-top">Semester</th>
+                                                    <th class="align-top">
+                                                        @if($meetings->active_date >=
+                                                        $meetings->homeroomTeacher->schoolYear->even_period_from &&
+                                                        $meetings->active_date <= $meetings->
+                                                            homeroomTeacher->schoolYear->even_period_to)
+                                                            Genap
+                                                            @elseif($meetings->active_date >=
+                                                            $meetings->homeroomTeacher->schoolYear->odd_period_from &&
+                                                            $meetings->active_date <= $meetings->
+                                                                homeroomTeacher->schoolYear->odd_period_to)
+                                                                Ganjil
+                                                                @endif
                                                     </th>
                                                 </tr>
                                                 <tr>
                                                     <th class="align-top">Pengajar</th>
-                                                    <th class="align-top">{{ $meetings->teacher_name }}</th>
+                                                    <th class="align-top">{{ $meetings->teacher->name }}</th>
                                                 </tr>
                                                 <tr>
                                                     <th class="align-top">Kelas</th>
-                                                    <th class="align-top">{{ $meetings->class_room_name }}
-                                                    </th>
+                                                    <th class="align-top">{{ $meetings->homeroomTeacher->classRoom->name
+                                                        }}
                                                 </tr>
                                             </thead>
                                         </table>
@@ -52,7 +69,7 @@
                                             <thead>
                                                 <tr>
                                                     <th class="align-top">MAPEL</th>
-                                                    <th class="align-top">{{ $meetings->subject_name }}</th>
+                                                    <th class="align-top">{{ $meetings->subject->name }}</th>
                                                 </tr>
                                                 <tr>
                                                     <th class="align-top">Judul</th>
@@ -84,13 +101,14 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($students as $student)
+                                        @if($student->student_id)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $student->student_name }}</td>
                                             <td>
                                                 <input type="number" class="form-control"
                                                     name="value[{{ $loop->iteration - 1 }}]" step="1" min="0" max="100"
-                                                    value="<?= ($student->value) ?? null; ?>" required />
+                                                    value="<?= ($student->value) ?? 0; ?>" required />
                                             </td>
                                             <td>
                                                 @if ($student->student_work_id)
@@ -122,6 +140,7 @@
                                                 @endif
                                             </td>
                                         </tr>
+                                        @endif
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -144,5 +163,5 @@
 @endsection
 
 @section('contents_vitamin')
-@include('teacher.presensi.main_vitamin')
+@include('teacher.penilaian.main_vitamin')
 @endsection

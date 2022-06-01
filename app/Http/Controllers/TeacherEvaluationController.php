@@ -13,21 +13,23 @@ class TeacherEvaluationController extends Controller
 {
     public function index($id)
     {
-        $meetings = Meeting::select([
-            'school_years.name AS school_year',
-            'teachers.name as teacher_name',
-            'class_rooms.name AS class_room_name',
-            'subjects.name as subject_name',
-            'meetings.title',
-            'meetings.homeroom_teacher_id',
-        ])
-            ->leftJoin('homeroom_teachers', 'homeroom_teachers.id', '=', 'meetings.homeroom_teacher_id')
-            ->leftJoin('school_years', 'school_years.id', '=', 'homeroom_teachers.school_year_id')
-            ->leftJoin('class_rooms', 'class_rooms.id', '=', 'homeroom_teachers.class_room_id')
-            ->leftJoin('teachers', 'teachers.id', '=', 'meetings.teacher_id')
-            ->leftJoin('subjects', 'subjects.id', '=', 'meetings.subject_id')
-            ->where('meetings.id', '=', $id)
-            ->first();
+        // $meetings = Meeting::select([
+        //     'school_years.name AS school_year',
+        //     'teachers.name as teacher_name',
+        //     'class_rooms.name AS class_room_name',
+        //     'subjects.name as subject_name',
+        //     'meetings.title',
+        //     'meetings.homeroom_teacher_id',
+        // ])
+        //     ->leftJoin('homeroom_teachers', 'homeroom_teachers.id', '=', 'meetings.homeroom_teacher_id')
+        //     ->leftJoin('school_years', 'school_years.id', '=', 'homeroom_teachers.school_year_id')
+        //     ->leftJoin('class_rooms', 'class_rooms.id', '=', 'homeroom_teachers.class_room_id')
+        //     ->leftJoin('teachers', 'teachers.id', '=', 'meetings.teacher_id')
+        //     ->leftJoin('subjects', 'subjects.id', '=', 'meetings.subject_id')
+        //     ->where('meetings.id', '=', $id)
+        //     ->first();
+
+        $meetings = Meeting::find($id)->first();
         if (!$meetings) return abort(404);
 
         $students = Meeting::select([
@@ -68,7 +70,7 @@ class TeacherEvaluationController extends Controller
     public function upsert(Request $request)
     {
         $meeting_id = $request->meeting_id;
-        $arr_value  = $request->value;
+        $arr_value  = $request->data_value;
 
         $students = Meeting::select('class_room_students.student_id')
             ->leftJoin('homeroom_teachers', 'homeroom_teachers.id', '=', 'meetings.homeroom_teacher_id')

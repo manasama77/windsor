@@ -1,4 +1,6 @@
 <script>
+    const dataValue = [];
+
     $(document).ready(function() {
         $.ajaxSetup({
             headers: {
@@ -6,57 +8,67 @@
             }
         });
 
-        cekPresensi()
+        $('#form').on('submit', e => {
+            e.preventDefault()
+            simpanData()
+        })
+
+        // cekValue()
     })
 
     function simpanData() {
-        const dataStatusPresence = [];
-        const dataDescription = [];
-        for (let i = 0; i < $(`select[name*="status_presence"]`).length; i++) {
-            let selectedSp = $(`select[name="status_presence[${i}]"]`).val()
-            dataStatusPresence.push(selectedSp)
-
-            let selectedD = $(`input[name="description[${i}]"]`).val()
-            dataDescription.push(selectedD)
+        for (let i = 0; i < $(`input[name*="value"]`).length; i++) {
+            let selectedValue = $(`input[name="value[${i}]"]`).val()
+            dataValue.push(selectedValue)
         }
 
-        $.ajax({
-            url: "{{ route('teacher.presensi.upsert') }}",
-            method: "POST",
-            data: {
-                meeting_id: $('#meeting_id').val(),
-                homeroom_teacher_id: $('#homeroom_teacher_id').val(),
-                status_presence: dataStatusPresence,
-                description: dataDescription,
-            },
-            dataType: 'json',
-            beforeSend: function() {
-                $('#btn_simpan').block({
-                    message: `<i class="fas fa-spinner fa-spin"></i>`
-                })
-            }
-        }).fail(e => {
-            console.log("fail", e)
-            $('#error').html(e.responseText)
-            $('#btn_simpan').unblock()
-        }).done(e => {
-            if (e.code == 200) {
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'Data Berhasil Disimpan',
-                    showConfirmButton: false,
-                    timer: 1500,
-                    toast: true,
-                })
-            }
-            $('#btn_simpan').unblock()
-        });
+        if(dataValue.length == 0){
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'Data Nilai Belum Terisi',
+                showConfirmButton: true,
+            })
+        }else{
+            $.ajax({
+                url: "{{ route('teacher.penilaian.upsert') }}",
+                method: "POST",
+                data: {
+                    meeting_id: $('#meeting_id').val(),
+                    homeroom_teacher_id: $('#homeroom_teacher_id').val(),
+                    data_value: dataValue,
+                },
+                dataType: 'json',
+                beforeSend: function() {
+                    $('#btn_simpan').block({
+                        message: `<i class="fas fa-spinner fa-spin"></i>`
+                    }).attr('disabled', true)
+                }
+            }).fail(e => {
+                console.log("fail", e)
+                $('#error').html(e.responseText)
+                $('#btn_simpan').unblock().attr('disabled', false)
+            }).done(e => {
+                if (e.code == 200) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Data Berhasil Disimpan',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        toast: true,
+                    })
+                }
+                setTimeout(() => {
+                    $('#btn_simpan').unblock().attr('disabled', false)
+                }, 2000);
+            });        
+        }
     }
 
-    function cekPresensi() {
+    function cekValue() {
         $.ajax({
-            url: `{{ url('/teacher/presensi/cek_presensi') }}/${ $('#meeting_id').val() }`,
+            url: `{{ url('/teacher/penilaian/cek_presensi') }}/${ $('#meeting_id').val() }`,
             method: "GET",
             dataType: 'json',
             beforeSend: function() {

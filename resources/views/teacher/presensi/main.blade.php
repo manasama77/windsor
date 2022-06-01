@@ -10,11 +10,11 @@
                 <div class="col-sm-12 col-md-6">
                     <h1 class="m-0">{{ $content_title }}</h1>
                 </div>
-                <div class="col-sm-12 col-md-6 text-right">
+                {{-- <div class="col-sm-12 col-md-6 text-right">
                     <a href="{{ route('teacher.pertemuan') }}" class="btn btn-secondary">
                         <i class="fas fa-backward"></i> Kembali Ke Data Pertemuan
                     </a>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
@@ -38,6 +38,22 @@
                                             <tr>
                                                 <th class="align-top">Tahun Ajar</th>
                                                 <th class="align-top">{{ $meetings->homeroomTeacher->schoolYear->name }}
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="align-top">Semester</th>
+                                                <th class="align-top">
+                                                    @if($meetings->active_date >=
+                                                    $meetings->homeroomTeacher->schoolYear->even_period_from &&
+                                                    $meetings->active_date <= $meetings->
+                                                        homeroomTeacher->schoolYear->even_period_to)
+                                                        Genap
+                                                        @elseif($meetings->active_date >=
+                                                        $meetings->homeroomTeacher->schoolYear->odd_period_from &&
+                                                        $meetings->active_date <= $meetings->
+                                                            homeroomTeacher->schoolYear->odd_period_to)
+                                                            Ganjil
+                                                            @endif
                                                 </th>
                                             </tr>
                                             <tr>
