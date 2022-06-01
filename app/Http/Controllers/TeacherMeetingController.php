@@ -97,7 +97,9 @@ class TeacherMeetingController extends Controller
                     $name = $file->hashName();
 
                     $folder_name = Auth::guard('teacher')->user()->id . "-" . Auth::guard('teacher')->user()->name;
-                    $path = $file->storeAs($folder_name, $name, 'public');
+                    $path = $file->storeAs('public/' . $folder_name, $name, 'public');
+                    // Storage::makeDirectory($folder_name,);
+                    // $path = Storage::putFileAs('public/' . $folder_name, $file, $name);
 
                     $meetingAttachment = new MeetingAttachment();
                     $meetingAttachment->meeting_id = $meeting_id;
@@ -217,7 +219,8 @@ class TeacherMeetingController extends Controller
                     $name = $file->hashName();
 
                     $folder_name = Auth::guard('teacher')->user()->id . "-" . Auth::guard('teacher')->user()->name;
-                    $path = $file->storeAs($folder_name, $name, 'public');
+                    // $path = $file->storeAs($folder_name, $name, 'public');
+                    $path = Storage::putFileAs('public/' . $folder_name, $file, $name);
 
                     $meetingAttachment = new MeetingAttachment();
                     $meetingAttachment->meeting_id = $meeting_id;
