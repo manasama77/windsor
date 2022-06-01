@@ -26,15 +26,14 @@ class AdminSetupClassRoomController extends Controller
             return datatables()::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', 'admin.setup.kelas.action')
-                ->rawColumns(['action'])
                 ->make(true);
         }
     }
 
     public function show($id)
     {
-        $admin = Subject::find($id);
-        return response()->json($admin);
+        $data = ClassRoom::find($id);
+        return response()->json($data);
     }
 
     public function store(Request $request)

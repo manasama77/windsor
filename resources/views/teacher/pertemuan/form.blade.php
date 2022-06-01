@@ -88,6 +88,11 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
+                                    <label for="active_date">Tanggal Aktif Pertemuan</label>
+                                    <input type="date" class="form-control" id="active_date" name="active_date"
+                                        required />
+                                </div>
+                                <div class="form-group">
                                     <label for="is_task">Berikan Tugas ?</label>
                                     <select class="form-control" id="is_task" name="is_task" required>
                                         <option value="0">Tidak</option>

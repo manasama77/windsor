@@ -28,6 +28,24 @@
                 {
                     data: null,
                     render: function(data, type, full, meta) {
+                        const d = moment(data.created_at)
+                        const oddFrom = moment(data.homeroom_teacher.school_year.odd_period_from)
+                        const oddTo = moment(data.homeroom_teacher.school_year.odd_period_to)
+                        const evenFrom = moment(data.homeroom_teacher.school_year.even_period_from)
+                        const evenTo = moment(data.homeroom_teacher.school_year.even_period_to)
+                        if(d.isAfter(oddFrom) && d.isBefore(oddTo)){
+                            return "GANJIL"
+                        }else if(d.isAfter(evenFrom) && d.isBefore(evenTo)){
+                            return "GANJIL"
+                        }else{
+                            return "UNKNOWN"
+                        }
+                        // return data.homeroom_teacher.school_year.name
+                    }
+                },
+                {
+                    data: null,
+                    render: function(data, type, full, meta) {
                         return data.teacher.name
                     }
                 },

@@ -70,6 +70,7 @@ class TeacherMeetingController extends Controller
         $meeting->teacher_id          = $request->teacher_id;
         $meeting->subject_id          = $request->subject_id;
         $meeting->homeroom_teacher_id = $request->homeroom_teacher_id;
+        $meeting->active_date         = $request->active_date;
         $meeting->title               = $request->title;
         $meeting->description         = $request->description;
         $meeting->is_task             = $request->is_task;

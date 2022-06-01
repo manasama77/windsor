@@ -52,13 +52,13 @@
             })
         })
 
-        // $('#is_task').on('change', e => {
-        //     if($('#is_task :selected').val() == "1"){
-        //         $('#periode_aktif').attr('disabled', false).attr('required', true)
-        //     }else{
-        //         $('#periode_aktif').attr('disabled', true).attr('required', false)
-        //     }
-        // })
+        $('#is_task').on('change', e => {
+            if($('#is_task :selected').val() == "1"){
+                $('#periode_aktif').attr('disabled', false).attr('required', true)
+            }else{
+                $('#periode_aktif').attr('disabled', true).attr('required', false).val('')
+            }
+        })
 
         $('#form').on('submit', function(e){
             e.preventDefault()
@@ -82,8 +82,8 @@
         setTimeout(() => {
             $('#teacher_id').val(`{{ $meetings->teacher_id }}`).trigger('change')
             $('#homeroom_teacher_id').val(`{{ $meetings->homeroom_teacher_id }}`)
-            $('#is_task').val(`{{ $meetings->is_task }}`)
             $('#periode_aktif').val(`${moment($('#from_period').val()).format('DD/MM/YYYY hh:mm A')} - ${moment($('#to_period').val()).format('DD/MM/YYYY hh:mm A')}`)
+            $('#is_task').val(`{{ $meetings->is_task }}`).trigger('change')
 
             let a = getMapelByTeacher(`{{ $meetings->teacher_id }}`)
             a.done(e => {
@@ -122,7 +122,7 @@
         
         setTimeout(() => {
             $.unblockUI()
-        }, 1000);
+        }, 1500);
     }
 
     function deleteAttachment(id)

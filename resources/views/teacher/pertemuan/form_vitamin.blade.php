@@ -33,13 +33,13 @@
             getMapelByTeacher(teacher_id)
         })
 
-        // $('#is_task').on('change', e => {
-        //     if($('#is_task :selected').val() == "1"){
-        //         $('#periode_aktif').attr('disabled', false).attr('required', true)
-        //     }else{
-        //         $('#periode_aktif').attr('disabled', true).attr('required', false)
-        //     }
-        // })
+        $('#is_task').on('change', e => {
+            if($('#is_task :selected').val() == "1"){
+                $('#periode_aktif').attr('disabled', false).attr('required', true)
+            }else{
+                $('#periode_aktif').attr('disabled', true).attr('required', false).val('')
+            }
+        })
 
         $('#form').on('submit', function(e){
             e.preventDefault()
