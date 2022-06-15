@@ -68,6 +68,14 @@ class TeacherMeetingController extends Controller
         return view('teacher.pertemuan.form', $data);
     }
 
+    protected function clean($string)
+    {
+        $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+        $string = preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+
+        return preg_replace('/-+/', '-', $string); // Replaces multiple hyphens with single one.
+    }
+
     public function store(Request $request)
     {
         DB::beginTransaction();
@@ -89,6 +97,9 @@ class TeacherMeetingController extends Controller
             return response()->json(['code' => 500], 500);
         }
         $meeting_id = $meeting->id;
+        $file = $request->file('files' . 0);
+        $folder_name = $this->clean(Auth::guard('teacher')->user()->id . "-" . Auth::guard('teacher')->user()->name);
+        // dd($folder_name);
 
         if ($request->TotalFiles > 0) {
             for ($x = 0; $x < $request->TotalFiles; $x++) {
@@ -96,8 +107,8 @@ class TeacherMeetingController extends Controller
                     $file = $request->file('files' . $x);
                     $name = $file->hashName();
 
-                    $folder_name = Auth::guard('teacher')->user()->id . "-" . Auth::guard('teacher')->user()->name;
-                    $path = $file->storeAs('public/' . $folder_name, $name, 'public');
+                    $folder_name = $this->clean(Auth::guard('teacher')->user()->id . "-" . Auth::guard('teacher')->user()->name);
+                    $path = $file->storeAs($folder_name, $name, 'public');
                     // Storage::makeDirectory($folder_name,);
                     // $path = Storage::putFileAs('public/' . $folder_name, $file, $name);
 
@@ -168,6 +179,7 @@ class TeacherMeetingController extends Controller
             'setupTeachers'        => $setupTeachers,
             'homeRoomTeachers'     => $homeRoomTeachers,
             'subjects'             => $subjects,
+            'school_year'          => $school_year,
         ];
         return view('teacher.pertemuan.form_edit', $data);
     }

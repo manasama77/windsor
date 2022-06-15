@@ -95,8 +95,8 @@
                                 <div class="form-group">
                                     <label for="active_date">Tanggal Aktif Pertemuan</label>
                                     <input type="date" class="form-control" id="active_date" name="active_date"
-                                        min="{{ $school_year->even_period_from }}"
-                                        max="{{ $school_year->odd_period_to }}" required />
+                                        min="{{ $school_year->odd_period_from }}"
+                                        max="{{ $school_year->even_period_to }}" required />
                                 </div>
                                 <div class="form-group">
                                     <label for="is_task">Berikan Tugas ?</label>

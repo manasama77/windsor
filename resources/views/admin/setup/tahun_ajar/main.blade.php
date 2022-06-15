@@ -45,8 +45,8 @@
                                     <tr>
                                         <th style="width: 10px">#</th>
                                         <th>Nama Tahun Ajar</th>
-                                        <th>Periode Genap</th>
                                         <th>Periode Ganjil</th>
+                                        <th>Periode Genap</th>
                                         <th>Status</th>
                                         <th class="text-center" style="width: 40px">
                                             <i class="fas fa-cogs"></i>
@@ -81,23 +81,6 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="even_period_from">Periode Genap From</label>
-                                    <input type="date" class="form-control" id="even_period_from"
-                                        name="even_period_from" placeholder="Periode Genap From"
-                                        value="{{ old('even_period_from') }}" required />
-                                    @error('even_period_from')
-                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="even_period_to">Periode Genap To</label>
-                                    <input type="date" class="form-control" id="even_period_to" name="even_period_to"
-                                        placeholder="Periode Genap To" value="{{ old('even_period_to') }}" required />
-                                    @error('even_period_to')
-                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
                                     <label for="odd_period_from">Periode Ganjil From</label>
                                     <input type="date" class="form-control" id="odd_period_from" name="odd_period_from"
                                         placeholder="Periode Ganjil From" value="{{ old('odd_period_from') }}"
@@ -111,6 +94,23 @@
                                     <input type="date" class="form-control" id="odd_period_to" name="odd_period_to"
                                         placeholder="Periode Ganjil To" value="{{ old('odd_period_to') }}" required />
                                     @error('odd_period_to')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="even_period_from">Periode Genap From</label>
+                                    <input type="date" class="form-control" id="even_period_from"
+                                        name="even_period_from" placeholder="Periode Genap From"
+                                        value="{{ old('even_period_from') }}" required />
+                                    @error('even_period_from')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="even_period_to">Periode Genap To</label>
+                                    <input type="date" class="form-control" id="even_period_to" name="even_period_to"
+                                        placeholder="Periode Genap To" value="{{ old('even_period_to') }}" required />
+                                    @error('even_period_to')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -159,16 +159,6 @@
                             required />
                     </div>
                     <div class="form-group">
-                        <label for="even_period_from_edit">Periode Genap From</label>
-                        <input type="date" class="form-control" id="even_period_from_edit" name="even_period_from"
-                            placeholder="Periode Genap From" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="even_period_to_edit">Periode Genap To</label>
-                        <input type="date" class="form-control" id="even_period_to_edit" name="even_period_to"
-                            placeholder="Periode Genap To" required />
-                    </div>
-                    <div class="form-group">
                         <label for="odd_period_from_edit">Periode Ganjil From</label>
                         <input type="date" class="form-control" id="odd_period_from_edit" name="odd_period_from"
                             placeholder="Periode Ganjil From" required />
@@ -177,6 +167,16 @@
                         <label for="odd_period_to_edit">Periode Ganjil To</label>
                         <input type="date" class="form-control" id="odd_period_to_edit" name="odd_period_to"
                             placeholder="Periode Ganjil To" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="even_period_from_edit">Periode Genap From</label>
+                        <input type="date" class="form-control" id="even_period_from_edit" name="even_period_from"
+                            placeholder="Periode Genap From" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="even_period_to_edit">Periode Genap To</label>
+                        <input type="date" class="form-control" id="even_period_to_edit" name="even_period_to"
+                            placeholder="Periode Genap To" required />
                     </div>
                     <div class="form-group">
                         <label for="is_active_edit">Aktif ?</label>

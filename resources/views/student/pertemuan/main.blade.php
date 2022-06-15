@@ -40,11 +40,12 @@
                             <h3 class="card-title">Data Pertemuan</h3>
                         </div>
                         <div class="card-body table-responsive">
-                            <table class="table table-hover datatables w-100">
+                            <table class="table table-hover w-100">
                                 <thead>
                                     <tr>
                                         <th style="width: 10px">#</th>
                                         <th>Tahun Ajar</th>
+                                        <th>Semester</th>
                                         <th>Pengajar</th>
                                         <th>Kelas</th>
                                         <th>MAPEL</th>
@@ -55,6 +56,54 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($meetings as $meeting)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $meeting->homeroomTeacher->schoolYear->name }}</td>
+                                        <td>
+                                            <?php
+                                            $odd_from = $meeting->homeroomTeacher->schoolYear->odd_period_from;
+                                            $odd_to = $meeting->homeroomTeacher->schoolYear->odd_period_to;
+                                            $even_from = $meeting->homeroomTeacher->schoolYear->even_period_from;
+                                            $even_to = $meeting->homeroomTeacher->schoolYear->even_period_to;
+
+                                            $now = new DateTime('now');
+                                            $oddFrom = new DateTime($odd_from);
+                                            $oddTo = new DateTime($odd_to);
+                                            $evenFrom = new DateTime($even_from);
+                                            $evenTo = new DateTime($even_to);
+
+                                            $semester = "-";
+                                            if($now >= $oddFrom && $now <= $oddTo){ 
+                                                $semester="GANJIL";
+                                            }elseif($now>= $evenFrom && $now <= $evenTo){
+                                                $semester="GENAP";
+                                            }
+                                             echo $semester;
+                                             ?>
+                                        </td>
+                                        <td>
+                                            {{ $meeting->teacher->name }}
+                                        </td>
+                                        <td>
+                                            {{ $meeting->homeroomTeacher->classRoom->name }}
+                                        </td>
+                                        <td>
+                                            {{ $meeting->subject->name }}
+                                        </td>
+                                        <td>
+                                            {{ $meeting->title }}
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('student.pertemuan.show', $meeting->id) }}"
+                                                class="btn btn-info" target="_blank" data-toggle="tooltip"
+                                                data-placement="top" title="Detail">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        </td>
+
+                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

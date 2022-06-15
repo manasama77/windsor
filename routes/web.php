@@ -22,6 +22,7 @@ use App\Http\Controllers\TeacherChatController;
 use App\Http\Controllers\TeacherDashboardController;
 use App\Http\Controllers\TeacherEvaluationController;
 use App\Http\Controllers\TeacherMeetingController;
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,11 @@ use App\Http\Controllers\TeacherMeetingController;
 */
 
 Route::get('/', [StudentController::class, 'index']);
+Route::get('/test', [TestController::class, 'index']);
+Route::get('/test/create', [TestController::class, 'create']);
+Route::get('/test/{id}', [TestController::class, 'show']);
+Route::post('/test', [TestController::class, 'store']);
+// Route::resource('/test', TestController::class);
 
 
 /* ------------------------------------------------------------------------------------------------------------------------------ */

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subject;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\ClassRoom;
+use Illuminate\Http\Request;
 use App\Models\HomeroomTeacher;
+use App\Http\Controllers\Controller;
 
 class AdminSetupClassRoomController extends Controller
 {

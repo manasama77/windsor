@@ -16,11 +16,17 @@ use Illuminate\Support\Facades\Storage;
 class StudentMeetingController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
+        $meetings = Meeting::with(['homeroomTeacher.schoolYear', 'teacher', 'homeroomTeacher.classRoom', 'subject'])
+            ->where('homeroom_teacher_id', '=', Session::get('homeroom_teacher_id'))
+            ->orderBy('id', 'desc')
+            ->get();
+
         $data = [
             'page_title'    => "Pertemuan",
             'content_title' => "Pertemuan",
+            'meetings'      => $meetings,
         ];
         return view('student.pertemuan.main', $data);
     }
@@ -35,30 +41,49 @@ class StudentMeetingController extends Controller
             return datatables()::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', 'student.pertemuan.action')
-                ->rawColumns(['action'])
                 ->make(true);
         }
     }
 
     public function show($meeting_id)
     {
-        $meetings               = Meeting::with('attendance')->where('id', '=', $meeting_id)->first();
+        $meetings = Meeting::with('attendance')->where('id', '=', $meeting_id)->first();
+
+        if (!$meetings) {
+            return view('student.not_found_meeting');
+        }
+
+        if (Carbon::now() <= $meetings->active_date) {
+            $active_date = Carbon::parse($meetings->active_date)->locale('id');
+            $active_date->settings(['formatFunction' => 'translatedFormat']);
+            $data = ['active_date' => $active_date->format('l, j F Y')];
+            return view('student.restriction_meeting', $data);
+        }
+
+        if (Session::get('homeroom_teacher_id') != $meetings->homeroom_teacher_id) {
+            return view('student.unautorize_meeting');
+        }
+
         $meeting_attachments    = MeetingAttachment::where('meeting_id', '=', $meeting_id)->get();
         $meeting_link_externals = MeetingLinkExternal::where('meeting_id', '=', $meeting_id)->get();
         $student_works          = StudentWork::where('meeting_id', '=', $meeting_id)->where('student_id', '=', Session::get('student_id'))->first();
 
-        $current_period = Carbon::now();
-        $from_period    = Carbon::createFromFormat('Y-m-d H:i:s', $meetings->from_period);
-        $to_period      = Carbon::createFromFormat('Y-m-d H:i:s', $meetings->to_period);
+        $can_upload  = false;
+        $from_period = null;
+        $to_period   = null;
 
-        $can_upload = $current_period->gte($from_period);
-        $can_upload = $current_period->lte($to_period);
+        if ($meetings->from_period) {
+            $current_period = Carbon::now();
+            $from_period    = Carbon::createFromFormat('Y-m-d H:i:s', $meetings->from_period);
+            $to_period      = Carbon::createFromFormat('Y-m-d H:i:s', $meetings->to_period);
+            $can_upload     = $current_period->gte($from_period);
+            $can_upload     = $current_period->lte($to_period);
+        }
 
         $chatToken = base64_encode($meeting_id . ":" . Session::get('student_id'));
 
         $data = [
             'page_title'             => "Detail Pertemuan",
-            'content_title'          => "Detail Pertemuan",
             'meetings'               => $meetings,
             'meeting_attachments'    => $meeting_attachments,
             'meeting_link_externals' => $meeting_link_externals,

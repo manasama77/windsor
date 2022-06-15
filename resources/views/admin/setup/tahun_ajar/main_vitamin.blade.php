@@ -35,7 +35,7 @@
                     orderable: false,
                     render: function(data, type, full, meta)
                     {
-                        return `${moment(data.even_period_from).format("D MMMM YYYY")} — ${moment(data.even_period_to).format("D MMMM YYYY")}`
+                        return `${moment(data.odd_period_from).format("D MMMM YYYY")} — ${moment(data.odd_period_to).format("D MMMM YYYY")}`
                     }
                 },
                 {
@@ -45,7 +45,7 @@
                     orderable: false,
                     render: function(data, type, full, meta)
                     {
-                        return `${moment(data.odd_period_from).format("D MMMM YYYY")} — ${moment(data.odd_period_to).format("D MMMM YYYY")}`
+                        return `${moment(data.even_period_from).format("D MMMM YYYY")} — ${moment(data.even_period_to).format("D MMMM YYYY")}`
                     }
                 },
                 {

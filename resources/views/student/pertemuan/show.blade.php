@@ -8,7 +8,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12 col-md-6">
-                    <h1 class="m-0">{{ $content_title }}</h1>
+                    <h1 class="m-0">{{ $page_title }}</h1>
                 </div>
             </div>
         </div>

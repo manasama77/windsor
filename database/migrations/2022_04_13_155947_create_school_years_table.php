@@ -17,10 +17,10 @@ return new class extends Migration
         Schema::create('school_years', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->date('even_period_from');
-            $table->date('even_period_to');
             $table->date('odd_period_from');
             $table->date('odd_period_to');
+            $table->date('even_period_from');
+            $table->date('even_period_to');
             $table->boolean('is_active')->default(0);
             $table->timestamps();
             $table->softDeletes();
