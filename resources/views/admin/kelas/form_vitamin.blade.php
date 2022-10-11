@@ -1,3 +1,6 @@
+{{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/base.min.css" /> --}}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 <script>
     $.ajaxSetup({
         headers: {
@@ -5,8 +8,14 @@
         },
     });
 
+    const element = document.querySelector('#student_id');
+    const choices = new Choices(element, {
+        removeItems: true,
+        removeItemButton: true,
+    });
+
     $(document).ready(function() {
-        $('#student_id').select2()
+        // $('#student_id').select2()
 
         $("#form").on("submit", (e) => {
             e.preventDefault()
@@ -33,7 +42,7 @@
             headers: {
                 "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content"),
             },
-            url: `{{ url('admin/kelas/update/'.$homeroom_teacher_id.'/'.$class_room_id) }}`,
+            url: `{{ url('admin/kelas/update/' . $homeroom_teacher_id . '/' . $class_room_id) }}`,
             method: "post",
             dataType: "json",
             data: {

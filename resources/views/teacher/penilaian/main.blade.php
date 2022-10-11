@@ -148,7 +148,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row mb-5">
                     <div class="col-12">
                         <input type="hidden" id="meeting_id" name="meeting_id" value="{{ $meeting_id }}" />
                         <button type="submit" id="btn_simpan" class="btn btn-primary btn-block"

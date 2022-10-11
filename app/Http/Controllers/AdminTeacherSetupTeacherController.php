@@ -6,6 +6,7 @@ use App\Models\Teacher;
 use App\Models\SetupTeacher;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\ClassRoom;
 use App\Models\SchoolYear;
 use App\Models\Subject;
 
@@ -14,12 +15,14 @@ class AdminTeacherSetupTeacherController extends Controller
     public function index(Request $request)
     {
         $schoolYears = SchoolYear::all();
+        $classRooms  = ClassRoom::all();
         $teachers    = Teacher::all();
         $subjects    = Subject::all();
         $data = [
             'page_title'    => "Management Guru - Daftar Pengajar",
             'content_title' => "Management Guru - Daftar Pengajar",
             'schoolYears'   => $schoolYears,
+            'classRooms'    => $classRooms,
             'teachers'      => $teachers,
             'subjects'      => $subjects,
         ];
@@ -29,7 +32,7 @@ class AdminTeacherSetupTeacherController extends Controller
     public function datatables(Request $request)
     {
         if ($request->ajax()) {
-            $data = SetupTeacher::with(['schoolYear', 'teacher', 'subject'])->orderBy('id', 'desc')->get();
+            $data = SetupTeacher::with(['schoolYear', 'classRoom', 'teacher', 'subject'])->orderBy('id', 'desc')->get();
             return datatables()::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', 'admin.guru.pengajar.action')
@@ -48,6 +51,7 @@ class AdminTeacherSetupTeacherController extends Controller
     {
         $request->validate([
             'school_year_id' => 'required',
+            'class_room_id'  => 'required',
             'teacher_id'     => 'required',
             'subject_id'     => 'required',
         ]);
@@ -59,6 +63,7 @@ class AdminTeacherSetupTeacherController extends Controller
     {
         $request->validate([
             'school_year_id' => 'required',
+            'class_room_id'  => 'required',
             'teacher_id'     => 'required',
             'subject_id'     => 'required',
         ]);

@@ -146,8 +146,7 @@
         $('#modal_reset').modal('show')
     }
 
-    function resetDataPassword()
-    {
+    function resetDataPassword() {
         $.ajax({
             url: `{{ url('admin/guru/daftar-guru/reset_password') }}/${idEdit}`,
             method: 'post',
@@ -169,6 +168,7 @@
                     position: 'top-end',
                     showConfirmButton: false,
                 }).then(() => {
+                    $('#btn_reset').text('Simpan').attr('disabled', false)
                     $('#modal_reset').modal('hide')
                     let oTable = $('.datatables').dataTable();
                     oTable.fnDraw(false);
@@ -183,6 +183,7 @@
                     position: 'top-end',
                     showConfirmButton: false,
                 }).then(() => {
+                    $('#btn_reset').text('Simpan').attr('disabled', false)
                     $('#modal_reset').modal('hide')
                 })
             }

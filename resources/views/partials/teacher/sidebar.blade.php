@@ -7,7 +7,7 @@
     </a>
 
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar sidebar-dark-green">
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
@@ -18,15 +18,15 @@
                 <a href="#" class="d-block">
                     {{ Auth::guard('teacher')->user()->name }}
                     @if (Session::get('homeroom_name'))
-                    <br /><small>Wali Kelas<br />{{ Session::get('homeroom_name') }}</small>
+                        <br /><small>Wali Kelas<br />{{ Session::get('homeroom_name') }}</small>
                     @endif
-                    @if(Session::get('subjects'))
-                    <br />
-                    @foreach (Session::get('subjects') as $key)
-                    <span class="badge badge-info mr-2">
-                        {{ $key }}
-                    </span>
-                    @endforeach
+                    @if (Session::get('subjects'))
+                        <br />
+                        @foreach (Session::get('subjects') as $key)
+                            <span class="badge badge-info mr-2">
+                                {{ $key }}
+                            </span>
+                        @endforeach
                     @endif
                 </a>
             </div>
@@ -34,7 +34,8 @@
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                 <li class="nav-item">
@@ -67,6 +68,14 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('teacher.report_card') }}" class="nav-link">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Rapot
+                        </p>
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('teacher.logout') }}" class="nav-link">

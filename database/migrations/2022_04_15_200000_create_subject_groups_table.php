@@ -13,8 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('meetings', function (Blueprint $blueprint) {
-            $blueprint->date('active_date')->nullable()->after('homeroom_teacher_id');
+        Schema::create('subject_groups', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->nullable(false);
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('subject_groups');
     }
 };

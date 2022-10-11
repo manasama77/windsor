@@ -12,12 +12,18 @@ class SetupTeacher extends Model
     protected $fillable = [
         'school_year_id',
         'teacher_id',
+        'class_room_id',
         'subject_id',
     ];
 
     public function schoolYear()
     {
         return $this->belongsTo(SchoolYear::class);
+    }
+
+    public function classRoom()
+    {
+        return $this->belongsTo(ClassRoom::class);
     }
 
     public function teacher()

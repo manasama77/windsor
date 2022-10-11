@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('subject_group_id')->constrained()->onUpdate('cascade')->onDelete('cascade')->nullable(false);
             $table->string('name');
             $table->boolean('is_active')->default(0);
             $table->timestamps();
@@ -29,6 +30,8 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('subjects');
+        Schema::enableForeignKeyConstraints();
     }
 };

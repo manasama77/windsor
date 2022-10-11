@@ -7,14 +7,17 @@ use App\Http\Controllers\Controller;
 use App\Models\Meeting;
 use App\Models\SetupTeacher;
 use App\Models\Subject;
+use App\Models\SubjectGroup;
 
 class AdminSetupSubjectController extends Controller
 {
     public function index(Request $request)
     {
+        $subject_groups = SubjectGroup::orderBy('name', 'asc')->get();
         $data = [
-            'page_title'    => "Setup - Mata Pelajaran",
-            'content_title' => "Setup - Mata Pelajaran",
+            'page_title'     => "Setup - Mata Pelajaran",
+            'content_title'  => "Setup - Mata Pelajaran",
+            'subject_groups' => $subject_groups,
         ];
         return view('admin.setup.mapel.main', $data);
     }
@@ -22,7 +25,7 @@ class AdminSetupSubjectController extends Controller
     public function datatables(Request $request)
     {
         if ($request->ajax()) {
-            $data = Subject::orderBy('id', 'desc')->get();
+            $data = Subject::with('subject_group')->orderBy('id', 'desc')->get();
             return datatables()::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', 'admin.setup.mapel.action')
@@ -33,7 +36,7 @@ class AdminSetupSubjectController extends Controller
 
     public function show($id)
     {
-        $admin = Subject::find($id);
+        $admin = Subject::with('subject_group')->find($id);
         return response()->json($admin);
     }
 
@@ -44,9 +47,10 @@ class AdminSetupSubjectController extends Controller
             'is_active'        => 'required|boolean',
         ]);
 
-        $data            = new Subject;
-        $data->name      = $request->name;
-        $data->is_active = $request->is_active;
+        $data                   = new Subject;
+        $data->subject_group_id = $request->subject_group_id;
+        $data->name             = $request->name;
+        $data->is_active        = $request->is_active;
         $data->save();
         return redirect()->route('admin.setup.mapel')->with('success', 'Create Success');
     }
@@ -59,6 +63,7 @@ class AdminSetupSubjectController extends Controller
         ]);
 
         $data                   = Subject::find($id);
+        $data->subject_group_id = $request->subject_group_id;
         $data->name             = $request->name;
         $data->is_active        = $request->is_active;
         $data->save();

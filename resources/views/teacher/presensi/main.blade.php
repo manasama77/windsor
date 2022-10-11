@@ -130,7 +130,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row mb-5">
                 <div class="col-12">
                     <input type="hidden" id="meeting_id" value="{{ $meeting_id }}" />
                     <input type="hidden" id="homeroom_teacher_id" value="{{ $homeroom_teacher_id }}" />

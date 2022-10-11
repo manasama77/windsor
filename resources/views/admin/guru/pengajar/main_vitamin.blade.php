@@ -31,24 +31,28 @@
                 },
                 {
                     data: null,
-                    render: function(data, type, full, meta)
-                    {
+                    render: function(data, type, full, meta) {
                         return data.school_year.name
                         // return ""
                     }
                 },
                 {
                     data: null,
-                    render: function(data, type, full, meta)
-                    {
+                    render: function(data, type, full, meta) {
+                        return (data.class_room?.name != null) ? data.class_room.name : ""
+                        // return ""
+                    }
+                },
+                {
+                    data: null,
+                    render: function(data, type, full, meta) {
                         return (data.teacher?.name != null) ? data.teacher.name : ""
                         // return ""
                     }
                 },
                 {
                     data: null,
-                    render: function(data, type, full, meta)
-                    {
+                    render: function(data, type, full, meta) {
                         return (data.subject?.name != null) ? data.subject.name : ""
                         // return ""
                     }
@@ -100,6 +104,7 @@
         }).done(e => {
             console.log(e)
             $('#school_year_id_edit').val(e.school_year_id)
+            $('#class_room_id_edit').val(e.class_room_id)
             $('#teacher_id_edit').val(e.teacher_id)
             $('#subject_id_edit').val(e.subject_id)
             $('#modal_edit').modal('show')

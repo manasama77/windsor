@@ -40,4 +40,9 @@ class ClassRoomStudent extends Model
     {
         return $this->hasManyThrough(SchoolYear::class, HomeroomTeacher::class, 'student_id');
     }
+
+    public function class_room()
+    {
+        return $this->hasOne(ClassRoom::class);
+    }
 }

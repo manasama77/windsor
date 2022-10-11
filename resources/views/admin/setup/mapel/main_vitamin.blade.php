@@ -25,13 +25,16 @@
                     name: 'id'
                 },
                 {
+                    data: 'subject_group.name',
+                    name: 'subject_group.name'
+                },
+                {
                     data: 'name',
                     name: 'name'
                 },
                 {
                     data: null,
-                    render: function(data, type, full, meta)
-                    {
+                    render: function(data, type, full, meta) {
                         return (data.is_active == 1) ? "Aktif" : "Tidak Aktif"
                     }
                 },
@@ -81,6 +84,7 @@
             console.log(e)
         }).done(e => {
             console.log(e)
+            $('#subject_group_id_edit').val(e.subject_group.id)
             $('#name_edit').val(e.name)
             $('#is_active_edit').val(e.is_active)
             $('#modal_edit').modal('show')

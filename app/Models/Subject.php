@@ -11,6 +11,7 @@ class Subject extends Model
 
     protected $fillable = [
         'name',
+        'subject_group_id',
         'is_active',
     ];
 
@@ -18,6 +19,11 @@ class Subject extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function subject_group()
+    {
+        return $this->belongsTo(SubjectGroup::class);
+    }
 
     public function setup_teacher()
     {

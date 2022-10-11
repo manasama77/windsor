@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('teacher_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('subject_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('homeroom_teacher_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->date('active_date')->nullable(false);
             $table->string('title');
             $table->longText('description');
             $table->boolean('is_task')->default(0);
@@ -35,6 +36,8 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('meetings');
+        Schema::enableForeignKeyConstraints();
     }
 };

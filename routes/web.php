@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminSetupAdminController;
 use App\Http\Controllers\AdminSetupSubjectController;
 use App\Http\Controllers\AdminSetupClassRoomController;
+use App\Http\Controllers\AdminSetupGroupSubjectController;
 use App\Http\Controllers\AdminSetupSchoolYearController;
 use App\Http\Controllers\AdminTeacherManagementController;
 use App\Http\Controllers\AdminTeacherSetupTeacherController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\TeacherChatController;
 use App\Http\Controllers\TeacherDashboardController;
 use App\Http\Controllers\TeacherEvaluationController;
 use App\Http\Controllers\TeacherMeetingController;
+use App\Http\Controllers\TeacherReportCard;
 use App\Http\Controllers\TestController;
 
 /*
@@ -102,6 +104,16 @@ Route::prefix('teacher')->group(function () {
     Route::get('/chat/render/{chatToken}', [TeacherChatController::class, 'render'])->name('teacher.chat.render')->middleware('teacher');
     /* ----------- End Teacher -> Chat ----------- */
     /* ------------------------------------------------------------------------------------------------------------------------------ */
+
+    /* ------------------------------------------------------------------------------------------------------------------------------ */
+    /* ----------- Start Teacher -> Rapot ----------- */
+    Route::get('/report_card', [TeacherReportCard::class, 'index'])->name('teacher.report_card')->middleware('teacher');
+    Route::get('/report_card/datatables', [TeacherReportCard::class, 'datatables'])->name('teacher.report_card.datatables')->middleware('teacher');
+    Route::get('/report_card/add', [TeacherReportCard::class, 'add'])->name('teacher.report_card.add')->middleware('teacher');
+    Route::get('/report_card/render_nilai/{school_year_id}/{class_room_id}', [TeacherReportCard::class, 'render_nilai'])->name('teacher.report_card.render_nilai')->middleware('teacher');
+    Route::post('/report_card/upsert/{school_year_id}/{period}/{class_room_id}', [TeacherReportCard::class, 'upsert'])->name('teacher.report_card.upsert')->middleware('teacher');
+    /* ----------- End Teacher -> Rapot ----------- */
+    /* ------------------------------------------------------------------------------------------------------------------------------ */
 });
 /* ----------- End Teacher Route ----------- */
 
@@ -154,6 +166,7 @@ Route::prefix('student')->group(function () {
 /* ------------------------------------------------------------------------------------------------------------------------------ */
 
 
+// start from here....
 /* ----------- Start Admin Route ----------- */
 Route::prefix('admin')->group(function () {
     /* ----------- Start Admin Login & Logout ----------- */
@@ -266,8 +279,18 @@ Route::prefix('admin')->group(function () {
 
 
     /* ------------------------------------------------------------------------------------------------------------------------------ */
+    /* ----------- Start Admin -> Setup -> Kelompok Mata Pelajaran ----------- */
+    Route::get('/setup/kelompok-mapel', [AdminSetupGroupSubjectController::class, 'index'])->name('admin.setup.kelompok.mapel')->middleware('admin');
+    Route::get('/setup/kelompok-mapel/show/{id}', [AdminSetupGroupSubjectController::class, 'show'])->name('admin.setup.kelompok.mapel.show')->middleware('admin');
+    Route::get('/setup/kelompok-mapel/datatables', [AdminSetupGroupSubjectController::class, 'datatables'])->name('admin.setup.kelompok.mapel.datatables')->middleware('admin');
+    Route::post('/setup/kelompok-mapel/store', [AdminSetupGroupSubjectController::class, 'store'])->name('admin.setup.kelompok.mapel.store')->middleware('admin');
+    Route::post('/setup/kelompok-mapel/update/{id}', [AdminSetupGroupSubjectController::class, 'update'])->name('admin.setup.kelompok.mapel.update')->middleware('admin');
+    Route::post('/setup/kelompok-mapel/destroy', [AdminSetupGroupSubjectController::class, 'destroy'])->name('admin.setup.kelompok.mapel.destroy')->middleware('admin');
+    /* ----------- End Admin -> Setup -> Kelompok Mata Pelajaran ----------- */
+    /* ------------------------------------------------------------------------------------------------------------------------------ */
 
 
+    /* ------------------------------------------------------------------------------------------------------------------------------ */
     /* ----------- Start Admin -> Setup -> Mata Pelajaran ----------- */
     Route::get('/setup/mapel', [AdminSetupSubjectController::class, 'index'])->name('admin.setup.mapel')->middleware('admin');
     Route::get('/setup/mapel/show/{id}', [AdminSetupSubjectController::class, 'show'])->name('admin.setup.mapel.show')->middleware('admin');
@@ -276,8 +299,6 @@ Route::prefix('admin')->group(function () {
     Route::post('/setup/mapel/update/{id}', [AdminSetupSubjectController::class, 'update'])->name('admin.setup.mapel.update')->middleware('admin');
     Route::post('/setup/mapel/destroy', [AdminSetupSubjectController::class, 'destroy'])->name('admin.setup.mapel.destroy')->middleware('admin');
     /* ----------- End Admin -> Setup -> Mata Pelajaran ----------- */
-
-
     /* ------------------------------------------------------------------------------------------------------------------------------ */
 
 
